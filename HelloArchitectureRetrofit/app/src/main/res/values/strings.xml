@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Hello Architecture Retrofit</string>
+    <string name="top_title">Top Page</string>
 </resources>
