@@ -24,7 +24,10 @@ class TopFragment : Fragment(R.layout.page_top) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = PageTopBinding.bind(view)
-        binding?.textSample?.text = viewModel.loadText()
+        viewModel.textSample.observe(viewLifecycleOwner) {
+            binding?.textSample?.text = it
+        }
+        viewModel.loadText()
         return
     }
 
