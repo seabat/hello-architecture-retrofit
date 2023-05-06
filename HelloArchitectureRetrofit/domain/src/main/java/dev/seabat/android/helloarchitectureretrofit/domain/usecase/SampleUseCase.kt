@@ -1,8 +1,12 @@
 package dev.seabat.android.helloarchitectureretrofit.domain.usecase
 
-class SampleUseCase : SampleUseCaseContract {
+import dev.seabat.android.helloarchitectureretrofit.domain.repository.SampleRepositoryContract
+
+class SampleUseCase(val sampleRepository: SampleRepositoryContract) : SampleUseCaseContract {
     override fun loadSample(): String {
-        return "xyz"
+        return sampleRepository.fetchSample()
     }
-    override fun saveSample(sample: String) {}
+    override fun saveSample(sample: String) {
+        sampleRepository.updateSample(sample)
+    }
 }
