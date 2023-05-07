@@ -40,9 +40,9 @@ class RepositoryListAdapter : RecyclerView.Adapter<RepositoryListAdapter.Reposit
             Glide.with(binding.imageThubm)
                 .load(data.owner.avatar_url)
                 .circleCrop()
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .error(R.drawable.ic_launcher_foreground)
-                .fallback(R.drawable.ic_launcher_foreground)
+                .placeholder(R.mipmap.ic_launcher_foreground)
+                .error(R.mipmap.ic_launcher_foreground)
+                .fallback(R.mipmap.ic_launcher_foreground)
                 .into(binding.imageThubm)
         }
     }
