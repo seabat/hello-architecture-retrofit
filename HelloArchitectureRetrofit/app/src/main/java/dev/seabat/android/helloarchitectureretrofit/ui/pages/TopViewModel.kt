@@ -6,7 +6,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.seabat.android.helloarchitectureretrofit.ErrorStringConverter
 import dev.seabat.android.helloarchitectureretrofit.domain.entity.RepositoryListEntity
+import dev.seabat.android.helloarchitectureretrofit.domain.exception.HelloException
 import dev.seabat.android.helloarchitectureretrofit.domain.usecase.GithubUseCaseContract
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,9 +30,15 @@ class TopViewModel @Inject constructor(
     fun loadRepositories() {
         viewModelScope.launch{
             _progressVisible.value = true
-            val repositories = githubUseCase.loadRepos() ?: RepositoryListEntity(arrayListOf())
-            _repositories.value = repositories
-            _progressVisible.value = false
+            kotlin.runCatching {
+                githubUseCase.loadRepos() ?: RepositoryListEntity(arrayListOf())
+            }.onSuccess { repositories ->
+                _repositories.value = repositories
+            }.onFailure {
+                android.util.Log.d("Hello", ErrorStringConverter.convertTo((it as HelloException).errType))
+            }.also {
+                _progressVisible.value = false
+            }
         }
     }
 }

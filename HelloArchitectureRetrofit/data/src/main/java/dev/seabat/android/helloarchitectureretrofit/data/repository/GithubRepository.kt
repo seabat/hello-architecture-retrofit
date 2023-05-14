@@ -1,15 +1,18 @@
 package dev.seabat.android.helloarchitectureretrofit.data.repository
 
+import dev.seabat.android.helloarchitectureretrofit.data.datasource.github.GitHubExceptionConverter
 import dev.seabat.android.helloarchitectureretrofit.data.datasource.github.model.GetAllRepoResponse
 import dev.seabat.android.helloarchitectureretrofit.data.datasource.github.GithubApiEndpoint
 import dev.seabat.android.helloarchitectureretrofit.data.datasource.github.model.Repository
 import dev.seabat.android.helloarchitectureretrofit.domain.entity.OwnerEntity
 import dev.seabat.android.helloarchitectureretrofit.domain.entity.RepositoryEntity
 import dev.seabat.android.helloarchitectureretrofit.domain.entity.RepositoryListEntity
+import dev.seabat.android.helloarchitectureretrofit.domain.exception.HelloException
 import dev.seabat.android.helloarchitectureretrofit.domain.repository.GithubRepositoryContract
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
 import retrofit2.Response
+import kotlin.coroutines.resumeWithException
 
 class GithubRepository(private val endpoint: GithubApiEndpoint) : GithubRepositoryContract {
 
@@ -18,9 +21,8 @@ class GithubRepository(private val endpoint: GithubApiEndpoint) : GithubReposito
             val call = endpoint.getAllRepo("architecture")
             call.enqueue(object : retrofit2.Callback<GetAllRepoResponse> {
                 override fun onFailure(call: Call<GetAllRepoResponse>, t: Throwable) {
-                    continuation.resume(null, null)
+                    continuation.resumeWithException(HelloException.convertTo(t))
                 }
-
                 override fun onResponse(
                     call: Call<GetAllRepoResponse>,
                     response: Response<GetAllRepoResponse>
@@ -30,9 +32,11 @@ class GithubRepository(private val endpoint: GithubApiEndpoint) : GithubReposito
                         val entityList = convertToEntity(getAllRepoResponse?.items)
                         continuation.resume(entityList, null)
                     } else {
-                        continuation.resume(null, null)
+                        continuation.resumeWithException(GitHubExceptionConverter.convertTo(
+                            response.code(),
+                            response.errorBody()?.string()
+                        ))
                     }
-
                 }
             })
         }
