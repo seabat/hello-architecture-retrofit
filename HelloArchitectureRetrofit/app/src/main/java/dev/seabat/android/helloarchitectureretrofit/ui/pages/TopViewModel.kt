@@ -6,13 +6,13 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.seabat.android.helloarchitectureretrofit.domain.usecase.SampleUseCaseContract
+import dev.seabat.android.helloarchitectureretrofit.domain.usecase.GithubUseCaseContract
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TopViewModel @Inject constructor(
-    private val sampleUseCase: SampleUseCaseContract,
+    private val githubUseCase: GithubUseCaseContract,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -22,7 +22,7 @@ class TopViewModel @Inject constructor(
 
     fun loadText() {
         viewModelScope.launch{
-            _textSample.value = sampleUseCase.loadSample()
+            _textSample.value = githubUseCase.loadRepos()?.get("hello-android-rust")?.name
         }
     }
 }

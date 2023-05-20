@@ -5,9 +5,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.seabat.android.helloarchitectureretrofit.domain.repository.SampleRepositoryContract
-import dev.seabat.android.helloarchitectureretrofit.domain.usecase.SampleUseCase
-import dev.seabat.android.helloarchitectureretrofit.domain.usecase.SampleUseCaseContract
+import dev.seabat.android.helloarchitectureretrofit.domain.repository.GithubRepositoryContract
+import dev.seabat.android.helloarchitectureretrofit.domain.usecase.GithubUseCase
+import dev.seabat.android.helloarchitectureretrofit.domain.usecase.GithubUseCaseContract
 import javax.inject.Singleton
 
 @Module
@@ -15,9 +15,9 @@ import javax.inject.Singleton
 abstract class UseCaseModuleBinder {
     @Binds
     @Singleton
-    abstract fun bindSampleUseCaseContract(
-        sampleUseCase: SampleUseCase
-    ): SampleUseCaseContract
+    abstract fun bindGithubUseCaseContract(
+        githubUseCase: GithubUseCase
+    ): GithubUseCaseContract
 }
 
 
@@ -25,9 +25,9 @@ abstract class UseCaseModuleBinder {
 @InstallIn(SingletonComponent::class)
 object UseCaseModuleProvider {
     @Provides
-    fun provideSampleUseCase(
-        sampleRepository: SampleRepositoryContract
-    ): SampleUseCase {
-        return SampleUseCase(sampleRepository)
+    fun provideGithubUseCase(
+        githubRepository: GithubRepositoryContract
+    ): GithubUseCase {
+        return GithubUseCase(githubRepository)
     }
 }

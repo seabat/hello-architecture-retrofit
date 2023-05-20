@@ -5,8 +5,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.seabat.android.helloarchitectureretrofit.data.repository.SampleRepository
-import dev.seabat.android.helloarchitectureretrofit.domain.repository.SampleRepositoryContract
+import dev.seabat.android.helloarchitectureretrofit.data.datasource.github.GithubApiEndpoint
+import dev.seabat.android.helloarchitectureretrofit.data.repository.GithubRepository
+import dev.seabat.android.helloarchitectureretrofit.domain.repository.GithubRepositoryContract
 import javax.inject.Singleton
 
 @Module
@@ -14,18 +15,19 @@ import javax.inject.Singleton
 abstract class RepositoryModuleBinder {
     @Binds
     @Singleton
-    abstract fun bindSampleRepositoryContract(
-        sampleRepository: SampleRepository
-    ): SampleRepositoryContract
+    abstract fun bindGithubRepositoryContract(
+        gitHubRepository: GithubRepository
+    ): GithubRepositoryContract
 }
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModuleProvider {
     @Provides
-    fun provideSampleRepository(
-    ): SampleRepository {
-        return SampleRepository()
+    fun provideGithubRepository(
+        endpoint: GithubApiEndpoint
+    ): GithubRepository {
+        return GithubRepository(endpoint)
     }
 }
 
