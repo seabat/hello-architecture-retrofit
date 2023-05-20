@@ -27,6 +27,10 @@ class TopViewModel @Inject constructor(
     val progressVisible: LiveData<Boolean>
         get() = _progressVisible
 
+    private val _errorMessage = MutableLiveData<String> (null)
+    val errorMessage: LiveData<String>
+        get() = _errorMessage
+
     fun loadRepositories() {
         viewModelScope.launch{
             _progressVisible.value = true
@@ -35,10 +39,16 @@ class TopViewModel @Inject constructor(
             }.onSuccess { repositories ->
                 _repositories.value = repositories
             }.onFailure {
-                android.util.Log.d("Hello", ErrorStringConverter.convertTo((it as HelloException).errType))
+                val errorString = ErrorStringConverter.convertTo((it as HelloException).errType)
+                android.util.Log.d("Hello", errorString)
+                _errorMessage.value = errorString
             }.also {
                 _progressVisible.value = false
             }
         }
+    }
+
+    fun clearError() {
+        _errorMessage.value = null
     }
 }
