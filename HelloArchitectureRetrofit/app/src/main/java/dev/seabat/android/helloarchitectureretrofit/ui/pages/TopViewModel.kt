@@ -27,8 +27,8 @@ class TopViewModel @Inject constructor(
     val progressVisible: LiveData<Boolean>
         get() = _progressVisible
 
-    private val _errorMessage = MutableLiveData<String> (null)
-    val errorMessage: LiveData<String>
+    private val _errorMessage = MutableLiveData<String?> (null)
+    val errorMessage: LiveData<String?>
         get() = _errorMessage
 
     fun loadRepositories() {
