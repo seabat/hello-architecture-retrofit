@@ -2,6 +2,7 @@ package dev.seabat.android.helloarchitectureretrofit.ui.pages
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -38,6 +39,21 @@ class TopFragment : Fragment(R.layout.page_top) {
             addItemDecoration(decoration)
             adapter = RepositoryListAdapter()
         }
+
+        binding?.search?.setOnCloseListener {
+            binding?.search?.visibility = View.GONE
+            binding?.toolbar?.visibility = View.VISIBLE
+            true
+        }
+
+        binding?.search?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+        })
     }
 
     private fun initObserver() {
@@ -76,6 +92,8 @@ class TopFragment : Fragment(R.layout.page_top) {
         binding?.toolbar?.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_search -> {
+                    binding?.search?.visibility = View.VISIBLE
+                    binding?.toolbar?.visibility = View.GONE
                     true
                 }
                 R.id.menu_refresh -> {
@@ -84,7 +102,6 @@ class TopFragment : Fragment(R.layout.page_top) {
                 else -> false
             }
         }
-
     }
 
     override fun onDestroyView() {
