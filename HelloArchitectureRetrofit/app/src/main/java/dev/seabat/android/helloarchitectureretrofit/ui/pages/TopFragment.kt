@@ -24,6 +24,7 @@ class TopFragment : Fragment(R.layout.page_top) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = PageTopBinding.bind(view)
+        initAppBar()
         initView()
         initObserver()
         viewModel.loadRepositories()
@@ -65,6 +66,25 @@ class TopFragment : Fragment(R.layout.page_top) {
                 )
             }
         }
+    }
+
+    private fun initAppBar() {
+        // NOTE: フラグメントが所有するアプリバーは onCreateOptionsMenu ではなく
+        //       ここで onViewCreated 等で inflate する
+        //       ref. https://developer.android.com/guide/fragments/appbar?hl=ja#fragment-inflate
+        binding?.toolbar?.inflateMenu(R.menu.top)
+        binding?.toolbar?.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_search -> {
+                    true
+                }
+                R.id.menu_refresh -> {
+                    true
+                }
+                else -> false
+            }
+        }
+
     }
 
     override fun onDestroyView() {
