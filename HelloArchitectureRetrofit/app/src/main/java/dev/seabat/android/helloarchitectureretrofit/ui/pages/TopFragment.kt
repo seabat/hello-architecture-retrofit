@@ -48,10 +48,13 @@ class TopFragment : Fragment(R.layout.page_top) {
 
         binding?.search?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
-                return true
+                return false
             }
             override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
+                viewModel.loadRepositories(query)
+                binding?.search?.visibility = View.GONE
+                binding?.toolbar?.visibility = View.VISIBLE
+                return false
             }
         })
     }
@@ -97,6 +100,7 @@ class TopFragment : Fragment(R.layout.page_top) {
                     true
                 }
                 R.id.menu_refresh -> {
+                    viewModel.loadRepositories()
                     true
                 }
                 else -> false

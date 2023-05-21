@@ -16,9 +16,9 @@ import kotlin.coroutines.resumeWithException
 
 class GithubRepository(private val endpoint: GithubApiEndpoint) : GithubRepositoryContract {
 
-    override suspend fun fetchRepos(): RepositoryListEntity? {
+    override suspend fun fetchRepos(query: String?): RepositoryListEntity? {
         return suspendCancellableCoroutine<RepositoryListEntity?> { continuation ->
-            val call = endpoint.getAllRepo("architecture")
+            val call = endpoint.getAllRepo(query ?: "architecture")
             call.enqueue(object : retrofit2.Callback<GetAllRepoResponse> {
                 override fun onFailure(call: Call<GetAllRepoResponse>, t: Throwable) {
                     continuation.resumeWithException(HelloException.convertTo(t))

@@ -31,11 +31,16 @@ class TopViewModel @Inject constructor(
     val errorMessage: LiveData<String?>
         get() = _errorMessage
 
-    fun loadRepositories() {
+    private var cachedQuery: String = "architecture"
+
+    fun loadRepositories(query: String? = null) {
+        query?.let {
+            cachedQuery = it
+        }
         viewModelScope.launch{
             _progressVisible.value = true
             kotlin.runCatching {
-                githubUseCase.loadRepos() ?: RepositoryListEntity(arrayListOf())
+                githubUseCase.loadRepos(cachedQuery) ?: RepositoryListEntity(arrayListOf())
             }.onSuccess { repositories ->
                 _repositories.value = repositories
             }.onFailure {
