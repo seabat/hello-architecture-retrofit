@@ -2,6 +2,7 @@ package dev.seabat.android.helloarchitectureretrofit.ui.pages
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,6 +25,7 @@ class TopFragment : Fragment(R.layout.page_top) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = PageTopBinding.bind(view)
+        initAppBar()
         initView()
         initObserver()
         viewModel.loadRepositories()
@@ -37,6 +39,24 @@ class TopFragment : Fragment(R.layout.page_top) {
             addItemDecoration(decoration)
             adapter = RepositoryListAdapter()
         }
+
+        binding?.search?.setOnCloseListener {
+            binding?.search?.visibility = View.GONE
+            binding?.toolbar?.visibility = View.VISIBLE
+            true
+        }
+
+        binding?.search?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.loadRepositories(query)
+                binding?.search?.visibility = View.GONE
+                binding?.toolbar?.visibility = View.VISIBLE
+                return false
+            }
+        })
     }
 
     private fun initObserver() {
@@ -63,6 +83,27 @@ class TopFragment : Fragment(R.layout.page_top) {
                         }
                     }
                 )
+            }
+        }
+    }
+
+    private fun initAppBar() {
+        // NOTE: フラグメントが所有するアプリバーは onCreateOptionsMenu ではなく
+        //       ここで onViewCreated 等で inflate する
+        //       ref. https://developer.android.com/guide/fragments/appbar?hl=ja#fragment-inflate
+        binding?.toolbar?.inflateMenu(R.menu.top)
+        binding?.toolbar?.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_search -> {
+                    binding?.search?.visibility = View.VISIBLE
+                    binding?.toolbar?.visibility = View.GONE
+                    true
+                }
+                R.id.menu_refresh -> {
+                    viewModel.loadRepositories()
+                    true
+                }
+                else -> false
             }
         }
     }
