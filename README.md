@@ -28,6 +28,11 @@ Android 推奨アーキテクチャと Retrofit を使い、Github リポジト�
 * イメージロードライブラリ  
   [Glide](https://github.com/bumptech/glide)  
 
+
+## 画面のスクリーンショット
+
+<img src="images/top_screenshot.png" width="200">　　<img src="images/search_screenshot.png" width="200">
+
 ## Commit Tree
 
 <img src="images/commit_tree.png" width="300">
