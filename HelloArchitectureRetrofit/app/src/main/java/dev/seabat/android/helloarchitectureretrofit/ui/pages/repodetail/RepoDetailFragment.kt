@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.seabat.android.helloarchitectureretrofit.R
 import dev.seabat.android.helloarchitectureretrofit.databinding.PageRepoDetailBinding
@@ -23,6 +26,7 @@ class RepoDetailFragment : Fragment(R.layout.page_repo_detail) {
         super.onViewCreated(view, savedInstanceState)
         binding = PageRepoDetailBinding.bind(view)
         initView()
+        initToolBar()
         initObserver()
         return
     }
@@ -31,6 +35,13 @@ class RepoDetailFragment : Fragment(R.layout.page_repo_detail) {
         val repoUrl = args.repoUrl
         val repoWebView = binding?.webview
         repoWebView?.loadUrl(repoUrl)
+    }
+
+    private fun initToolBar() {
+        this.findNavController().let {
+            val appBarConfig = AppBarConfiguration(it.graph)
+            binding?.toolbar?.setupWithNavController(it, appBarConfig)
+        }
     }
 
     private fun initObserver() {
