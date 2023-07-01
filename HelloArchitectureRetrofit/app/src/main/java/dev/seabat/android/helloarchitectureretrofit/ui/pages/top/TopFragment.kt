@@ -1,4 +1,4 @@
-package dev.seabat.android.helloarchitectureretrofit.ui.pages
+package dev.seabat.android.helloarchitectureretrofit.ui.pages.top
 
 import android.os.Bundle
 import android.view.View
@@ -6,6 +6,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -100,6 +101,9 @@ class TopFragment : Fragment(R.layout.page_top) {
                     true
                 }
                 R.id.menu_refresh -> {
+                    //TODO: 仮の画面遷移
+                    val action = TopFragmentDirections.actionToRepoDetail().apply { repoUrl = "https://github.com/" }
+                    this.findNavController().navigate(action)
                     viewModel.loadRepositories()
                     true
                 }

@@ -1,4 +1,4 @@
-package dev.seabat.android.helloarchitectureretrofit.ui.pages
+package dev.seabat.android.helloarchitectureretrofit.ui.pages.top
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
