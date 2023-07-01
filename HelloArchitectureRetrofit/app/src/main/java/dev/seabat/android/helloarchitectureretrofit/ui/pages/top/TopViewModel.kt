@@ -1,4 +1,4 @@
-package dev.seabat.android.helloarchitectureretrofit.ui.pages
+package dev.seabat.android.helloarchitectureretrofit.ui.pages.top
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

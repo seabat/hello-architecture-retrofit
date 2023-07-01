@@ -1,4 +1,4 @@
-package dev.seabat.android.helloarchitectureretrofit.ui.pages
+package dev.seabat.android.helloarchitectureretrofit.ui.pages.top
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +9,9 @@ import dev.seabat.android.helloarchitectureretrofit.databinding.ListitemGithubRe
 import dev.seabat.android.helloarchitectureretrofit.domain.entity.RepositoryEntity
 import dev.seabat.android.helloarchitectureretrofit.domain.entity.RepositoryListEntity
 
-class RepositoryListAdapter : RecyclerView.Adapter<RepositoryListAdapter.RepositoryHolder>(){
+class RepositoryListAdapter(
+    private val onListItemClick : (fullName: String, htmlUrl: String) -> Unit
+) : RecyclerView.Adapter<RepositoryListAdapter.RepositoryHolder>(){
     var items = RepositoryListEntity(arrayListOf())
 
     fun updateRepositoryList(repositoryList : RepositoryListEntity){
@@ -29,9 +31,10 @@ class RepositoryListAdapter : RecyclerView.Adapter<RepositoryListAdapter.Reposit
 
     override fun onBindViewHolder(holder: RepositoryHolder, position: Int) {
         holder.bind(items[position])
+        holder.setClickListener(items[position], onListItemClick)
     }
 
-    class RepositoryHolder(val binding: ListitemGithubRepoBinding) : RecyclerView.ViewHolder(binding.root){
+    class RepositoryHolder(val binding: ListitemGithubRepoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: RepositoryEntity){
             binding.textName.text = data.name
             binding.textDesc.text = data.description ?: ""
@@ -44,6 +47,15 @@ class RepositoryListAdapter : RecyclerView.Adapter<RepositoryListAdapter.Reposit
                 .error(R.mipmap.ic_launcher_foreground)
                 .fallback(R.mipmap.ic_launcher_foreground)
                 .into(binding.imageThubm)
+        }
+
+        fun setClickListener(
+            data: RepositoryEntity,
+            onListItemClick : (fullName: String, htmlUrl: String) -> Unit
+        ) {
+            binding.layoutRoot.setOnClickListener {
+                onListItemClick(data.full_name, data.html_url)
+            }
         }
     }
 }

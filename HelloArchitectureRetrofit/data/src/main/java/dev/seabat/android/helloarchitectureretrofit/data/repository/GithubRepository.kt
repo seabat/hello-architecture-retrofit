@@ -48,6 +48,8 @@ class GithubRepository(private val endpoint: GithubApiEndpoint) : GithubReposito
                 repos.map {
                     RepositoryEntity(
                         name = it.name,
+                        full_name = it.full_name,
+                        html_url = it.html_url,
                         description = it.description,
                         created_at = it.created_at,
                         owner = OwnerEntity( avatar_url = it.owner.avatar_url)
