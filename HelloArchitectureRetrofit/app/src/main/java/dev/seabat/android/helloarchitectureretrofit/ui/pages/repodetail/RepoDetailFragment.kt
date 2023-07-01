@@ -38,10 +38,15 @@ class RepoDetailFragment : Fragment(R.layout.page_repo_detail) {
     }
 
     private fun initToolBar() {
+        // 戻るボタン
         this.findNavController().let {
             val appBarConfig = AppBarConfiguration(it.graph)
             binding?.toolbar?.setupWithNavController(it, appBarConfig)
         }
+
+        // タイトル
+        val repoName = args.repoName
+        binding?.toolbar?.title = repoName
     }
 
     private fun initObserver() {

@@ -18,6 +18,10 @@
                 android:name= "repoUrl"
                 app:argType="string"
                 android:defaultValue="https://github.com/" />
+            <argument
+                android:name= "repoName"
+                app:argType="string"
+                android:defaultValue="GitHub" />
         </action>
     </fragment>
 
@@ -31,5 +35,9 @@
             android:name= "repoUrl"
             app:argType="string"
             android:defaultValue="https://github.com/" />
+        <argument
+            android:name= "repoName"
+            app:argType="string"
+            android:defaultValue="GitHub" />
     </fragment>
 </navigation>

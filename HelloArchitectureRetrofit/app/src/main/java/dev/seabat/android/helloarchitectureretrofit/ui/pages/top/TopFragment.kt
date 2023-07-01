@@ -38,7 +38,7 @@ class TopFragment : Fragment(R.layout.page_top) {
             layoutManager = LinearLayoutManager(requireContext())
             val decoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
             addItemDecoration(decoration)
-            adapter = RepositoryListAdapter()
+            adapter = RepositoryListAdapter(onListItemClick = this@TopFragment.onListItemClick)
         }
 
         binding?.search?.setOnCloseListener {
@@ -101,15 +101,20 @@ class TopFragment : Fragment(R.layout.page_top) {
                     true
                 }
                 R.id.menu_refresh -> {
-                    //TODO: 仮の画面遷移
-                    val action = TopFragmentDirections.actionToRepoDetail().apply { repoUrl = "https://github.com/" }
-                    this.findNavController().navigate(action)
                     viewModel.loadRepositories()
                     true
                 }
                 else -> false
             }
         }
+    }
+
+    private val onListItemClick: (fullName: String, htmlUrl: String) -> Unit = { fullName, htmlUrl ->
+        val action = TopFragmentDirections.actionToRepoDetail().apply {
+            repoName = fullName
+            repoUrl = htmlUrl
+        }
+        this.findNavController().navigate(action)
     }
 
     override fun onDestroyView() {
