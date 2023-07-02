@@ -1,8 +1,8 @@
 package dev.seabat.android.helloarchitectureretrofit.data.repository
 
-import dev.seabat.android.helloarchitectureretrofit.data.datasource.github.GitHubExceptionConverter
+import dev.seabat.android.helloarchitectureretrofit.data.datasource.github.GithubExceptionConverter
 import dev.seabat.android.helloarchitectureretrofit.data.datasource.github.model.GetAllRepoResponse
-import dev.seabat.android.helloarchitectureretrofit.data.datasource.github.GithubApiEndpoint
+import dev.seabat.android.helloarchitectureretrofit.data.datasource.github.GithubApiService
 import dev.seabat.android.helloarchitectureretrofit.data.datasource.github.model.Repository
 import dev.seabat.android.helloarchitectureretrofit.domain.entity.OwnerEntity
 import dev.seabat.android.helloarchitectureretrofit.domain.entity.RepositoryEntity
@@ -14,7 +14,7 @@ import retrofit2.Call
 import retrofit2.Response
 import kotlin.coroutines.resumeWithException
 
-class GithubRepository(private val endpoint: GithubApiEndpoint) : GithubRepositoryContract {
+class GithubRepository(private val endpoint: GithubApiService) : GithubRepositoryContract {
 
     override suspend fun fetchRepos(query: String?): RepositoryListEntity? {
         return suspendCancellableCoroutine<RepositoryListEntity?> { continuation ->
@@ -34,7 +34,7 @@ class GithubRepository(private val endpoint: GithubApiEndpoint) : GithubReposito
                         continuation.resume(entityList, null)
                     } else {
                         continuation.resumeWithException(
-                            GitHubExceptionConverter.convertTo(
+                            GithubExceptionConverter.convertTo(
                                 response.code(),
                                 response.errorBody()?.string()
                             )
