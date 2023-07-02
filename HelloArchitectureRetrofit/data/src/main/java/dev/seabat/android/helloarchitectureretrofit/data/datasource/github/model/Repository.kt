@@ -1,10 +1,12 @@
 package dev.seabat.android.helloarchitectureretrofit.data.datasource.github.model
 
+import com.squareup.moshi.Json
+
 data class Repository(
     val name: String,
-    val full_name: String,
-    val html_url: String,
+    @Json(name = "full_name") val fullName: String,
+    @Json(name = "html_url") val htmlUrl: String,
     val description: String?,
-    val created_at: String,
+    @Json(name = "created_at") val createdAt: String,
     val owner: Owner
 )

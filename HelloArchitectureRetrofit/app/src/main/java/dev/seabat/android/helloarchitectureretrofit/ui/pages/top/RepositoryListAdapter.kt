@@ -38,10 +38,10 @@ class RepositoryListAdapter(
         fun bind(data: RepositoryEntity){
             binding.textName.text = data.name
             binding.textDesc.text = data.description ?: ""
-            binding.textCreatedDate.text = data.created_at
+            binding.textCreatedDate.text = data.createdAt
             
             Glide.with(binding.imageThubm)
-                .load(data.owner.avatar_url)
+                .load(data.owner.avatarUrl)
                 .circleCrop()
                 .placeholder(R.mipmap.ic_launcher_foreground)
                 .error(R.mipmap.ic_launcher_foreground)
@@ -54,7 +54,7 @@ class RepositoryListAdapter(
             onListItemClick : (fullName: String, htmlUrl: String) -> Unit
         ) {
             binding.layoutRoot.setOnClickListener {
-                onListItemClick(data.full_name, data.html_url)
+                onListItemClick(data.fullName, data.htmlUrl)
             }
         }
     }
