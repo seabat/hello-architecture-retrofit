@@ -10,16 +10,16 @@
         android:id="@+id/nav_top"
         android:name="dev.seabat.android.helloarchitectureretrofit.ui.pages.top.TopFragment"
         android:label="@string/top_title"
-        tools:layout="@layout/page_top" >
+        tools:layout="@layout/page_top">
         <action
             android:id="@+id/action_to_repo_detail"
-            app:destination="@id/nav_repo_detail" >
+            app:destination="@id/nav_repo_detail">
             <argument
-                android:name= "repoUrl"
+                android:name="repoUrl"
                 app:argType="string"
                 android:defaultValue="https://github.com/" />
             <argument
-                android:name= "repoName"
+                android:name="repoName"
                 app:argType="string"
                 android:defaultValue="GitHub" />
         </action>
@@ -30,13 +30,13 @@
         android:id="@+id/nav_repo_detail"
         android:name="dev.seabat.android.helloarchitectureretrofit.ui.pages.repodetail.RepoDetailFragment"
         android:label="@string/repo_detail_title"
-        tools:layout="@layout/page_repo_detail" >
+        tools:layout="@layout/page_repo_detail">
         <argument
-            android:name= "repoUrl"
+            android:name="repoUrl"
             app:argType="string"
             android:defaultValue="https://github.com/" />
         <argument
-            android:name= "repoName"
+            android:name="repoName"
             app:argType="string"
             android:defaultValue="GitHub" />
     </fragment>

@@ -23,6 +23,7 @@ class GithubRepository(private val endpoint: GithubApiEndpoint) : GithubReposito
                 override fun onFailure(call: Call<GetAllRepoResponse>, t: Throwable) {
                     continuation.resumeWithException(HelloException.convertTo(t))
                 }
+
                 override fun onResponse(
                     call: Call<GetAllRepoResponse>,
                     response: Response<GetAllRepoResponse>
@@ -32,10 +33,12 @@ class GithubRepository(private val endpoint: GithubApiEndpoint) : GithubReposito
                         val entityList = convertToEntity(getAllRepoResponse?.items)
                         continuation.resume(entityList, null)
                     } else {
-                        continuation.resumeWithException(GitHubExceptionConverter.convertTo(
-                            response.code(),
-                            response.errorBody()?.string()
-                        ))
+                        continuation.resumeWithException(
+                            GitHubExceptionConverter.convertTo(
+                                response.code(),
+                                response.errorBody()?.string()
+                            )
+                        )
                     }
                 }
             })
@@ -52,7 +55,7 @@ class GithubRepository(private val endpoint: GithubApiEndpoint) : GithubReposito
                         htmlUrl = it.htmlUrl,
                         description = it.description,
                         createdAt = it.createdAt,
-                        owner = OwnerEntity( avatarUrl = it.owner.avatarUrl)
+                        owner = OwnerEntity(avatarUrl = it.owner.avatarUrl)
                     )
                 } as ArrayList<RepositoryEntity>
             )

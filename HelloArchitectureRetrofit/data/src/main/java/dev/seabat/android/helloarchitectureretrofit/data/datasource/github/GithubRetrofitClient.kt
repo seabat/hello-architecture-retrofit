@@ -17,7 +17,7 @@ object GithubRetrofitClient {
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 
-    fun createApiEndpoint(): GithubApiEndpoint  {
+    fun createApiEndpoint(): GithubApiEndpoint {
         return retrofit.create(GithubApiEndpoint::class.java)
     }
 }
