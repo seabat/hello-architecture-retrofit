@@ -40,11 +40,6 @@ dependencies {
     def retrofit_version = "2.9.0"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
 
-    // Gson
-    // TODO: エラー発生時のレスポンスボディ解析において Gson から Moshi に置き換えが完了したら削除
-    def gson_version = "2.9.0"
-    implementation "com.squareup.retrofit2:converter-gson:$gson_version"
-
     // Moshi
     def moshi_version = "1.15.0"
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
