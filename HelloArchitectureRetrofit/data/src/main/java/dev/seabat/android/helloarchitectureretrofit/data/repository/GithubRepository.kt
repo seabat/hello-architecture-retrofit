@@ -27,7 +27,7 @@ class GithubRepository(private val endpoint: GithubApiEndpoint) : GithubReposito
                     call: Call<GetAllRepoResponse>,
                     response: Response<GetAllRepoResponse>
                 ) {
-                    if(response.isSuccessful) {
+                    if (response.isSuccessful) {
                         val getAllRepoResponse = response.body()
                         val entityList = convertToEntity(getAllRepoResponse?.items)
                         continuation.resume(entityList, null)
