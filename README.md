@@ -63,3 +63,4 @@ Android 推奨アーキテクチャと Retrofit を使い、Github リポジト�
 |[リポジトリ詳細画面にパラメータを渡して遷移する](https://github.com/seabat/hello-architecture-retrofit/commit/daf403f5e802d9e6a511a04d176086e537656c41)|
 |[レスポンスJSON のパースをGson から Moshi に変更](https://github.com/seabat/hello-architecture-retrofit/commit/85fa9818128854db45d2b003bfc7da13f5ecdd9f)|
 |[JSON のパースをGSON から Moshi に変更](https://github.com/seabat/hello-architecture-retrofit/commit/3f2d3b91a4ded7c430c669d6c1f13f7509c84e36)|
+|[HTTP 通信を非同期方式から同期方式に変更する](https://github.com/seabat/hello-architecture-retrofit/commit/14be2045b72a2b0f76149e6d2e0ba01e5de05f8a)|
