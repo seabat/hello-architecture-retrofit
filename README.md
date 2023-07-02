@@ -23,7 +23,8 @@ Android 推奨アーキテクチャと Retrofit を使い、Github リポジト�
   [Hilt](https://dagger.dev/hilt/) 
   
 * JSON <=> String 変換ライブラリ  
-  [Gson](https://github.com/google/gson) 
+  * [Gson](https://github.com/google/gson) (Ver. 1.0)
+  * [Moshi](https://github.com/square/moshi/tree/master) (Ver. 1.1以降)
 
 * イメージロードライブラリ  
   [Glide](https://github.com/bumptech/glide)  
