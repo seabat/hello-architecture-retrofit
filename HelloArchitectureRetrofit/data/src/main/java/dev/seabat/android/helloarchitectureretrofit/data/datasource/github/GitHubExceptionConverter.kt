@@ -10,7 +10,7 @@ import dev.seabat.android.helloarchitectureretrofit.domain.exception.HelloExcept
 /**
  * GitHub API のエラーレスポンスコードを HelloException に変換する
  */
-object GitHubExceptionConverter {
+object GithubExceptionConverter {
     fun convertTo(responseStatusCode: Int, errorBody: String?): HelloException {
         val errorType = when (responseStatusCode) {
             400 -> ErrorType.NETWORK_BAD_REQUEST
