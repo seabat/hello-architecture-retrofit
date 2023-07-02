@@ -1,7 +1,5 @@
 package dev.seabat.android.helloarchitectureretrofit.data.datasource.github.model
 
-import com.squareup.moshi.JsonClass
-
 /**
  * API https://api.github.com/search/repositories のレスポンス
  *

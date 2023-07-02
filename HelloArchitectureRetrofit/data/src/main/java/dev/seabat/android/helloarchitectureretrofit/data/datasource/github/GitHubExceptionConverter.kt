@@ -1,6 +1,8 @@
 package dev.seabat.android.helloarchitectureretrofit.data.datasource.github
 
-import com.google.gson.Gson
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dev.seabat.android.helloarchitectureretrofit.data.datasource.github.model.ErrorResponse
 import dev.seabat.android.helloarchitectureretrofit.domain.exception.ErrorType
 import dev.seabat.android.helloarchitectureretrofit.domain.exception.HelloException
@@ -18,7 +20,12 @@ object GitHubExceptionConverter {
             else -> ErrorType.NETWORK_UNKNOWN_ERROR
         }
         val errorMessage = errorBody?.let {
-            Gson().fromJson<ErrorResponse>(it, ErrorResponse::class.java)
+            val moshi: Moshi = Moshi
+                .Builder()
+                .add(KotlinJsonAdapterFactory())
+                .build()
+            val jsonAdapter: JsonAdapter<ErrorResponse> = moshi.adapter(ErrorResponse::class.java)
+            jsonAdapter.fromJson(it)
         } ?: null
 
         return HelloException.HttpException(
