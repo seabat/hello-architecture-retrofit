@@ -23,36 +23,39 @@ class GithubRepository(private val endpoint: GithubApiEndpoint) : GithubReposito
                 override fun onFailure(call: Call<GetAllRepoResponse>, t: Throwable) {
                     continuation.resumeWithException(HelloException.convertTo(t))
                 }
+
                 override fun onResponse(
                     call: Call<GetAllRepoResponse>,
                     response: Response<GetAllRepoResponse>
                 ) {
-                    if(response.isSuccessful) {
+                    if (response.isSuccessful) {
                         val getAllRepoResponse = response.body()
                         val entityList = convertToEntity(getAllRepoResponse?.items)
                         continuation.resume(entityList, null)
                     } else {
-                        continuation.resumeWithException(GitHubExceptionConverter.convertTo(
-                            response.code(),
-                            response.errorBody()?.string()
-                        ))
+                        continuation.resumeWithException(
+                            GitHubExceptionConverter.convertTo(
+                                response.code(),
+                                response.errorBody()?.string()
+                            )
+                        )
                     }
                 }
             })
         }
     }
 
-    private fun convertToEntity(repos: ArrayList<Repository>?): RepositoryListEntity? {
+    private fun convertToEntity(repos: List<Repository>?): RepositoryListEntity? {
         return repos?.let { repos ->
             RepositoryListEntity(
                 repos.map {
                     RepositoryEntity(
                         name = it.name,
-                        full_name = it.full_name,
-                        html_url = it.html_url,
+                        fullName = it.fullName,
+                        htmlUrl = it.htmlUrl,
                         description = it.description,
-                        created_at = it.created_at,
-                        owner = OwnerEntity( avatar_url = it.owner.avatar_url)
+                        createdAt = it.createdAt,
+                        owner = OwnerEntity(avatarUrl = it.owner.avatarUrl)
                     )
                 } as ArrayList<RepositoryEntity>
             )

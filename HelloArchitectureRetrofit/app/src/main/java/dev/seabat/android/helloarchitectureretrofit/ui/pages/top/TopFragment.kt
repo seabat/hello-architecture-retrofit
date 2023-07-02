@@ -51,6 +51,7 @@ class TopFragment : Fragment(R.layout.page_top) {
             override fun onQueryTextChange(newText: String?): Boolean {
                 return false
             }
+
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.loadRepositories(query)
                 binding?.search?.visibility = View.GONE
@@ -65,21 +66,24 @@ class TopFragment : Fragment(R.layout.page_top) {
             (binding?.recyclerview?.adapter as RepositoryListAdapter)?.updateRepositoryList(it)
         }
         viewModel.progressVisible.observe(viewLifecycleOwner) {
-            if(it) {
+            if (it) {
                 binding?.progressbar?.visibility = View.VISIBLE
             } else {
                 binding?.progressbar?.visibility = View.GONE
             }
         }
         viewModel.errorMessage.observe(viewLifecycleOwner) {
-            if(it != null) {
+            if (it != null) {
                 showSimpleErrorDialog(
                     message = it,
                     requestKey = TAG,
                     requestBundle = bundleOf("errorMessage" to it),
                     onClickCallback = { key, bundle ->
                         if (key == TAG) {
-                            android.util.Log.d("Hello", "Error dialog closed(${bundle.getString("errorMessage")})")
+                            android.util.Log.d(
+                                "Hello",
+                                "Error dialog closed(${bundle.getString("errorMessage")})"
+                            )
                             viewModel.clearError()
                         }
                     }
@@ -100,22 +104,25 @@ class TopFragment : Fragment(R.layout.page_top) {
                     binding?.toolbar?.visibility = View.GONE
                     true
                 }
+
                 R.id.menu_refresh -> {
                     viewModel.loadRepositories()
                     true
                 }
+
                 else -> false
             }
         }
     }
 
-    private val onListItemClick: (fullName: String, htmlUrl: String) -> Unit = { fullName, htmlUrl ->
-        val action = TopFragmentDirections.actionToRepoDetail().apply {
-            repoName = fullName
-            repoUrl = htmlUrl
+    private val onListItemClick: (fullName: String, htmlUrl: String) -> Unit =
+        { fullName, htmlUrl ->
+            val action = TopFragmentDirections.actionToRepoDetail().apply {
+                repoName = fullName
+                repoUrl = htmlUrl
+            }
+            this.findNavController().navigate(action)
         }
-        this.findNavController().navigate(action)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

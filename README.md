@@ -23,7 +23,8 @@ Android 推奨アーキテクチャと Retrofit を使い、Github リポジト�
   [Hilt](https://dagger.dev/hilt/) 
   
 * JSON <=> String 変換ライブラリ  
-  [Gson](https://github.com/google/gson) 
+  * [Gson](https://github.com/google/gson) (Ver. 1.0)
+  * [Moshi](https://github.com/square/moshi/tree/master) (Ver. 1.1以降)
 
 * イメージロードライブラリ  
   [Glide](https://github.com/bumptech/glide)  
@@ -60,3 +61,5 @@ Android 推奨アーキテクチャと Retrofit を使い、Github リポジト�
 |[リポジトリ詳細画面を追加する](https://github.com/seabat/hello-architecture-retrofit/commit/b6cd8f50c18db6c2bbaf6c65be0df9185df329d6)|
 |[リポジトリ詳細画面のヘッダーに戻るボタンを追加する](https://github.com/seabat/hello-architecture-retrofit/commit/0cc803a8ce51dcf0b8fe9f0e0dc5ae10381a897d)|
 |[リポジトリ詳細画面にパラメータを渡して遷移する](https://github.com/seabat/hello-architecture-retrofit/commit/daf403f5e802d9e6a511a04d176086e537656c41)|
+|[レスポンスJSON のパースをGson から Moshi に変更](https://github.com/seabat/hello-architecture-retrofit/commit/85fa9818128854db45d2b003bfc7da13f5ecdd9f)|
+|[JSON のパースをGSON から Moshi に変更](https://github.com/seabat/hello-architecture-retrofit/commit/3f2d3b91a4ded7c430c669d6c1f13f7509c84e36)|

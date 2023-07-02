@@ -36,13 +36,13 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
 
-    // Retrofit
+    // Retrofit with Moshi Converter
     def retrofit_version = "2.9.0"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
 
-    // Gson
-    def gson_version = "2.9.0"
-    implementation "com.squareup.retrofit2:converter-gson:$gson_version"
+    // Moshi
+    def moshi_version = "1.15.0"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
