@@ -1,3 +1,8 @@
 package dev.seabat.android.helloarchitectureretrofit.data.datasource.github.model
 
-data class Owner(val avatar_url: String?)
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+data class Owner(
+    @Json(name = "avatar_url") val avatarUrl: String?
+)

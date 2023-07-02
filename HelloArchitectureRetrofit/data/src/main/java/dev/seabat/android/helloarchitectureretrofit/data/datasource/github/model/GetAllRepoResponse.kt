@@ -1,5 +1,7 @@
 package dev.seabat.android.helloarchitectureretrofit.data.datasource.github.model
 
+import com.squareup.moshi.JsonClass
+
 /**
  * API https://api.github.com/search/repositories のレスポンス
  *
@@ -10,4 +12,6 @@ package dev.seabat.android.helloarchitectureretrofit.data.datasource.github.mode
  *   "items": [...]
  * }
  */
-data class GetAllRepoResponse(val items: ArrayList<Repository>)
+data class GetAllRepoResponse(val items: List<Repository>)
+//NOTE: ArrayList を使用すると「Moshi only supports the collection interfaces by default」
+//      というエラーが発生するので List を使用すること
