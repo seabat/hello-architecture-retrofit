@@ -20,7 +20,7 @@ class RepoDetailFragment : Fragment(R.layout.page_repo_detail) {
 
     private var binding: PageRepoDetailBinding? = null
     private val viewModel: RepoDetailViewModel by viewModels()
-    val args: RepoDetailFragmentArgs by navArgs()
+    private val args: RepoDetailFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,7 +50,7 @@ class RepoDetailFragment : Fragment(R.layout.page_repo_detail) {
     }
 
     private fun initObserver() {
-
+        // Do nothing
     }
 
     override fun onDestroyView() {

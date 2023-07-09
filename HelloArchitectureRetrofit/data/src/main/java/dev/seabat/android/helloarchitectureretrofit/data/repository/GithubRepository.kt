@@ -26,8 +26,8 @@ class GithubRepository(private val endpoint: GithubApiService) : GithubRepositor
             }
 
             if (response.isSuccessful) {
-                val getAllRepoResponse = response.body()
-                val entityList = convertToEntity(getAllRepoResponse?.items)
+                val responseBody = response.body()
+                val entityList = convertToEntity(responseBody?.items)
                 entityList
             } else {
                 val exception = GithubExceptionConverter.convertTo(

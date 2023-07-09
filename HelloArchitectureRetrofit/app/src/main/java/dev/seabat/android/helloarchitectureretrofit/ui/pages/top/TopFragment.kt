@@ -34,6 +34,7 @@ class TopFragment : Fragment(R.layout.page_top) {
     }
 
     private fun initView() {
+        // RecycleView に Adapter を設定
         binding?.recyclerview?.apply {
             layoutManager = LinearLayoutManager(requireContext())
             val decoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
@@ -41,12 +42,14 @@ class TopFragment : Fragment(R.layout.page_top) {
             adapter = RepositoryListAdapter(onListItemClick = this@TopFragment.onListItemClick)
         }
 
+        // SearchView のクローズリスナー
         binding?.search?.setOnCloseListener {
             binding?.search?.visibility = View.GONE
             binding?.toolbar?.visibility = View.VISIBLE
             true
         }
 
+        // SearchView の入力リスナー
         binding?.search?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
                 return false
@@ -62,9 +65,12 @@ class TopFragment : Fragment(R.layout.page_top) {
     }
 
     private fun initObserver() {
+        // リストの更新
         viewModel.repositories.observe(viewLifecycleOwner) {
             (binding?.recyclerview?.adapter as RepositoryListAdapter)?.updateRepositoryList(it)
         }
+
+        // プログレスバーの表示・非表示の切り替え
         viewModel.progressVisible.observe(viewLifecycleOwner) {
             if (it) {
                 binding?.progressbar?.visibility = View.VISIBLE
@@ -72,6 +78,8 @@ class TopFragment : Fragment(R.layout.page_top) {
                 binding?.progressbar?.visibility = View.GONE
             }
         }
+
+        // エラーダイアログの表示
         viewModel.errorMessage.observe(viewLifecycleOwner) {
             if (it != null) {
                 showSimpleErrorDialog(
@@ -117,6 +125,7 @@ class TopFragment : Fragment(R.layout.page_top) {
 
     private val onListItemClick: (fullName: String, htmlUrl: String) -> Unit =
         { fullName, htmlUrl ->
+            // 詳細画面に遷移
             val action = TopFragmentDirections.actionToRepoDetail().apply {
                 repoName = fullName
                 repoUrl = htmlUrl
