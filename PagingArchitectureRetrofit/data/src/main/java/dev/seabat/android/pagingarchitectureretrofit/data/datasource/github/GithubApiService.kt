@@ -7,6 +7,10 @@ import retrofit2.http.Query
 
 interface GithubApiService {
     @GET("search/repositories")
-    fun getAllRepo(@Query("q") q: String): Call<GetAllRepoResponse>
+    fun getAllRepo(
+        @Query("q") q: String,
+        @Query("page") page: Int?,
+        @Query("per_page") perPage: Int = 50,
+    ): Call<GetAllRepoResponse>
 }
 

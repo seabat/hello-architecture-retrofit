@@ -19,7 +19,7 @@ class GithubRepository(private val endpoint: GithubApiService) : GithubRepositor
         return withContext(Dispatchers.IO) {
             val response = try {
                 // 同期方式で HTTP 通信を行う
-                endpoint.getAllRepo(query ?: "architecture").execute()
+                endpoint.getAllRepo(query ?: "architecture", null).execute()
             } catch (e: Exception) { // 通信自体が失敗した場合
                 val exception = AppException.convertTo(e as Throwable)
                 throw exception
