@@ -1,19 +1,25 @@
 package dev.seabat.android.pagingarchitectureretrofit.ui.pages.top
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import dev.seabat.android.pagingarchitectureretrofit.ErrorStringConverter
 import dev.seabat.android.pagingarchitectureretrofit.R
 import dev.seabat.android.pagingarchitectureretrofit.databinding.PageTopBinding
+import dev.seabat.android.pagingarchitectureretrofit.domain.exception.AppException
+import dev.seabat.android.pagingarchitectureretrofit.ui.dialog.showSimpleErrorDialog
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -50,6 +56,36 @@ class TopFragment : Fragment(R.layout.page_top) {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.loadRepositories().collectLatest {
                         repositoryListAdapter.submitData(it)
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repositoryListAdapter.loadStateFlow.collectLatest { states ->
+                when (val state = states.refresh) {
+                    is LoadState.Loading -> {
+                        Log.d("PAR_PAGING", "Loading")
+                    }
+                    is LoadState.Error -> {
+                        Log.d("PAR_PAGING", "Error")
+                        val errorString = ErrorStringConverter.convertTo((state.error as AppException).errType)
+                        showSimpleErrorDialog(
+                            message =errorString,
+                            requestKey = TAG,
+                            requestBundle = bundleOf("errorMessage" to errorString),
+                            onClickCallback = { key, bundle ->
+                                if (key == TAG) {
+                                    Log.d(
+                                        "PAR_PAGING",
+                                        "Error dialog closed(${bundle.getString("errorMessage")})"
+                                    )
+                                }
+                            }
+                        )
+                    }
+                    is LoadState.NotLoading -> {
+                        Log.d("PAR_PAGING", "NotLoading")
                     }
                 }
             }
