@@ -3,16 +3,19 @@ package dev.seabat.android.pagingarchitectureretrofit.ui.pages.top
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.SearchView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.seabat.android.pagingarchitectureretrofit.R
 import dev.seabat.android.pagingarchitectureretrofit.databinding.PageTopBinding
-import dev.seabat.android.pagingarchitectureretrofit.ui.dialog.showSimpleErrorDialog
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TopFragment : Fragment(R.layout.page_top) {
@@ -29,18 +32,29 @@ class TopFragment : Fragment(R.layout.page_top) {
         initAppBar()
         initView()
         initObserver()
-        viewModel.loadRepositories()
         return
     }
 
     private fun initView() {
         // RecycleView に Adapter を設定
+        val repositoryListAdapter = RepositoryListAdapter(onListItemClick = this@TopFragment.onListItemClick)
         binding?.recyclerview?.apply {
             layoutManager = LinearLayoutManager(requireContext())
             val decoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
             addItemDecoration(decoration)
-            adapter = RepositoryListAdapter(onListItemClick = this@TopFragment.onListItemClick)
+            adapter = repositoryListAdapter
+
+            lifecycleScope.launch {
+                // We repeat on the STARTED lifecycle because an Activity may be PAUSED
+                // but still visible on the screen, for example in a multi window app
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.loadRepositories().collectLatest {
+                        repositoryListAdapter.submitData(it)
+                    }
+                }
+            }
         }
+
 
         // SearchView のクローズリスナー
         binding?.search?.setOnCloseListener {
@@ -65,39 +79,6 @@ class TopFragment : Fragment(R.layout.page_top) {
     }
 
     private fun initObserver() {
-        // リストの更新
-        viewModel.repositories.observe(viewLifecycleOwner) {
-            (binding?.recyclerview?.adapter as RepositoryListAdapter)?.updateRepositoryList(it)
-        }
-
-        // プログレスバーの表示・非表示の切り替え
-        viewModel.progressVisible.observe(viewLifecycleOwner) {
-            if (it) {
-                binding?.progressbar?.visibility = View.VISIBLE
-            } else {
-                binding?.progressbar?.visibility = View.GONE
-            }
-        }
-
-        // エラーダイアログの表示
-        viewModel.errorMessage.observe(viewLifecycleOwner) {
-            if (it != null) {
-                showSimpleErrorDialog(
-                    message = it,
-                    requestKey = TAG,
-                    requestBundle = bundleOf("errorMessage" to it),
-                    onClickCallback = { key, bundle ->
-                        if (key == TAG) {
-                            android.util.Log.d(
-                                "Hello",
-                                "Error dialog closed(${bundle.getString("errorMessage")})"
-                            )
-                            viewModel.clearError()
-                        }
-                    }
-                )
-            }
-        }
     }
 
     private fun initAppBar() {

@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import dev.seabat.android.pagingarchitectureretrofit.R
 import dev.seabat.android.pagingarchitectureretrofit.databinding.ListitemGithubRepoBinding
 import dev.seabat.android.pagingarchitectureretrofit.domain.entity.RepositoryEntity
-import dev.seabat.android.pagingarchitectureretrofit.domain.entity.RepositoryListEntity
 
 class RepositoryListAdapter(
     private val onListItemClick: (fullName: String, htmlUrl: String) -> Unit
