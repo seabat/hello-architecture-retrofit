@@ -1,6 +1,6 @@
 package dev.seabat.android.pagingarchitectureretrofit.domain.entity
 
-class RepositoryEntity(
+data class RepositoryEntity(
     val id: Int,
     val name: String,
     val fullName: String,

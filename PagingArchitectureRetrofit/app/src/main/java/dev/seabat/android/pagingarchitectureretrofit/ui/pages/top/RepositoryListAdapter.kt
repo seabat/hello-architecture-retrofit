@@ -2,6 +2,8 @@ package dev.seabat.android.pagingarchitectureretrofit.ui.pages.top
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import dev.seabat.android.pagingarchitectureretrofit.R
@@ -11,30 +13,26 @@ import dev.seabat.android.pagingarchitectureretrofit.domain.entity.RepositoryLis
 
 class RepositoryListAdapter(
     private val onListItemClick: (fullName: String, htmlUrl: String) -> Unit
-) : RecyclerView.Adapter<RepositoryListAdapter.RepositoryHolder>() {
-    var items = RepositoryListEntity(arrayListOf())
-
-    fun updateRepositoryList(repositoryList: RepositoryListEntity) {
-        this.items = repositoryList
-        this.notifyDataSetChanged()
+) : PagingDataAdapter<RepositoryEntity, RepositoryListAdapter.RepositoryViewHolder>(REPOSITORY_DIFF_CALLBACK) {
+    override fun onBindViewHolder(holder: RepositoryViewHolder, position: Int) {
+        val tile = getItem(position)
+        if (tile != null) {
+            holder.bind(tile)
+            holder.setClickListener(tile, onListItemClick)
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = ListitemGithubRepoBinding.inflate(layoutInflater)
-        return RepositoryHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
+        return RepositoryViewHolder(
+            ListitemGithubRepoBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false,
+            )
+        )
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
-
-    override fun onBindViewHolder(holder: RepositoryHolder, position: Int) {
-        holder.bind(items[position])
-        holder.setClickListener(items[position], onListItemClick)
-    }
-
-    class RepositoryHolder(val binding: ListitemGithubRepoBinding) :
+    class RepositoryViewHolder(private val binding: ListitemGithubRepoBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: RepositoryEntity) {
             binding.textName.text = data.name
@@ -57,6 +55,16 @@ class RepositoryListAdapter(
             binding.layoutRoot.setOnClickListener {
                 onListItemClick(data.fullName, data.htmlUrl)
             }
+        }
+    }
+
+    companion object {
+        private val REPOSITORY_DIFF_CALLBACK = object : DiffUtil.ItemCallback<RepositoryEntity>() {
+            override fun areItemsTheSame(oldItem: RepositoryEntity, newItem: RepositoryEntity): Boolean =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: RepositoryEntity, newItem: RepositoryEntity): Boolean =
+                oldItem == newItem
         }
     }
 }
