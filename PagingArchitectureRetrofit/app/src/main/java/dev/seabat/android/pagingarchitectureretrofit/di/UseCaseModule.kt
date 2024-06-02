@@ -6,8 +6,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.seabat.android.pagingarchitectureretrofit.domain.repository.GithubRepositoryContract
-import dev.seabat.android.pagingarchitectureretrofit.domain.usecase.GithubUseCase
-import dev.seabat.android.pagingarchitectureretrofit.domain.usecase.GithubUseCaseContract
+import dev.seabat.android.pagingarchitectureretrofit.domain.usecase.CreateRepositoryPagingSourceUseCase
+import dev.seabat.android.pagingarchitectureretrofit.domain.usecase.CreateRepositoryPagingSourceUseCaseContract
 import javax.inject.Singleton
 
 @Module
@@ -16,8 +16,8 @@ abstract class UseCaseModuleBinder {
     @Binds
     @Singleton
     abstract fun bindGithubUseCaseContract(
-        githubUseCase: GithubUseCase
-    ): GithubUseCaseContract
+        githubUseCase: CreateRepositoryPagingSourceUseCase
+    ): CreateRepositoryPagingSourceUseCaseContract
 }
 
 
@@ -27,7 +27,7 @@ object UseCaseModuleProvider {
     @Provides
     fun provideGithubUseCase(
         githubRepository: GithubRepositoryContract
-    ): GithubUseCase {
-        return GithubUseCase(githubRepository)
+    ): CreateRepositoryPagingSourceUseCase {
+        return CreateRepositoryPagingSourceUseCase(githubRepository)
     }
 }

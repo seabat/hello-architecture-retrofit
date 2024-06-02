@@ -51,22 +51,25 @@ class RepositoryPagingSource(
 
     /**
      * リポジトリ一覧を取得できる Web API を呼び出す
+     *
+     * - Web API の実行が正常終了し、レスポンスデータのデータが null の場合、null を返す。
      */
-    private suspend fun fetchRepos(query: String?, startKey: Int, page: Int?): RepositoryListEntity? {
+    private suspend fun fetchRepos(query: String, startKey: Int, page: Int?): RepositoryListEntity? {
         //NOTE: 同期方式の場合はメインスレッド以外で通信する必要あり
         return withContext(Dispatchers.IO) {
             val response = try {
                 // 同期方式で HTTP 通信を行う
-                endpoint.getAllRepo(query ?: "architecture", page, PAGE_SIZE).execute()
+                endpoint.getAllRepo(query, page, PAGE_SIZE).execute()
             } catch (e: Exception) { // 通信自体が失敗した場合
                 val exception = AppException.convertTo(e as Throwable)
                 throw exception
             }
 
-            if (response.isSuccessful) {
+            val repositories = if (response.isSuccessful) {
                 val responseBody = response.body()
-                val entityList = convertToEntity(startKey, responseBody?.items)
-                entityList
+                responseBody?.items?.let { items ->
+                    convertToEntity(startKey, items)
+                }
             } else {
                 val exception = GithubExceptionConverter.convertTo(
                     response.code(),
@@ -74,15 +77,16 @@ class RepositoryPagingSource(
                 )
                 throw exception
             }
+
+            repositories
         }
     }
 
     /**
      * API のレスポンスを Entity に変換する
      */
-    private fun convertToEntity(startKey: Int, repos: List<Repository>?): RepositoryListEntity? {
-        return repos?.let { repos ->
-            RepositoryListEntity(
+    private fun convertToEntity(startKey: Int, repos: List<Repository>): RepositoryListEntity {
+        return RepositoryListEntity(
                 repos.mapIndexed { index, value ->
                     // NOTE: id は 1 開始とする。
                     //       startKey と index の開始値は 0 なので、 id に +1 する。
@@ -101,7 +105,6 @@ class RepositoryPagingSource(
                     )
                 } as ArrayList<RepositoryEntity>
             )
-        } ?: null
     }
 
     /**

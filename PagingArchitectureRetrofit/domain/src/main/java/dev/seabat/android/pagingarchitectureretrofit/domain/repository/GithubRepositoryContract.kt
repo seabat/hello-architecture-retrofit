@@ -1,7 +1,8 @@
 package dev.seabat.android.pagingarchitectureretrofit.domain.repository
 
-import dev.seabat.android.pagingarchitectureretrofit.domain.entity.RepositoryListEntity
+import androidx.paging.PagingSource
+import dev.seabat.android.pagingarchitectureretrofit.domain.entity.RepositoryEntity
 
 interface GithubRepositoryContract {
-    suspend fun fetchRepos(query: String?): RepositoryListEntity?
+    fun repositoryPagingSource(query: String): PagingSource<Int, RepositoryEntity>
 }
