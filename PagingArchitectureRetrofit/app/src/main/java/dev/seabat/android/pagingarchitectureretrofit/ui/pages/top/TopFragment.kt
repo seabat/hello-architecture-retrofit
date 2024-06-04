@@ -66,6 +66,7 @@ class TopFragment : Fragment(R.layout.page_top) {
                 when (val state = states.refresh) {
                     is LoadState.Loading -> {
                         Log.d("PAR_PAGING", "Loading")
+                        binding?.progressbar?.visibility = View.VISIBLE
                     }
                     is LoadState.Error -> {
                         Log.d("PAR_PAGING", "Error")
@@ -85,6 +86,7 @@ class TopFragment : Fragment(R.layout.page_top) {
                         )
                     }
                     is LoadState.NotLoading -> {
+                        binding?.progressbar?.visibility = View.GONE
                         Log.d("PAR_PAGING", "NotLoading")
                     }
                 }
