@@ -54,7 +54,7 @@ class TopFragment : Fragment(R.layout.page_top) {
                 // We repeat on the STARTED lifecycle because an Activity may be PAUSED
                 // but still visible on the screen, for example in a multi window app
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.loadRepositories().collectLatest {
+                    viewModel.pagingDataFlow.collectLatest {
                         repositoryListAdapter.submitData(it)
                     }
                 }
@@ -87,6 +87,7 @@ class TopFragment : Fragment(R.layout.page_top) {
                     }
                     is LoadState.NotLoading -> {
                         binding?.progressbar?.visibility = View.GONE
+                        binding?.recyclerview?.scrollToPosition(0)
                         Log.d("PAR_PAGING", "NotLoading")
                     }
                 }
@@ -108,7 +109,9 @@ class TopFragment : Fragment(R.layout.page_top) {
             }
 
             override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.loadRepositories(query)
+                query?.let {
+                    viewModel.updateQuery(it)
+                }
                 binding?.search?.visibility = View.GONE
                 binding?.toolbar?.visibility = View.VISIBLE
                 return false
@@ -133,7 +136,7 @@ class TopFragment : Fragment(R.layout.page_top) {
                 }
 
                 R.id.menu_refresh -> {
-                    viewModel.loadRepositories()
+                    viewModel.updateQuery()
                     true
                 }
 
