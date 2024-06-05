@@ -2,8 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs'
-    id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'com.google.devtools.ksp'
 }
 
 android {
@@ -27,17 +27,14 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "17"
     }
     viewBinding {
         enabled = true
-    }
-    kapt {
-        correctErrorTypes true
     }
 }
 
@@ -55,13 +52,14 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     // Hilt
-    def hilt_version = "2.44"
+    def hilt_version = "2.48.1"
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    ksp "com.google.dagger:hilt-compiler:$hilt_version"
 
     // Glide
     def glide_version = "4.15.1"
     implementation "com.github.bumptech.glide:glide:$glide_version"
+    ksp("com.github.bumptech.glide:ksp:$glide_version")
 
     // Paging
     def paging_version = "3.3.0"
