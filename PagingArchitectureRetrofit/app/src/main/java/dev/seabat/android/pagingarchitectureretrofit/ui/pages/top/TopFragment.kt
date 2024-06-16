@@ -148,10 +148,10 @@ class TopFragment : Fragment(R.layout.page_top) {
     private val onListItemClick: (fullName: String, htmlUrl: String) -> Unit =
         { fullName, htmlUrl ->
             // 詳細画面に遷移
-            val action = TopFragmentDirections.actionToRepoDetail().apply {
-                repoName = fullName
+            val action = TopFragmentDirections.actionToRepoDetail(
+                repoName = fullName,
                 repoUrl = htmlUrl
-            }
+            )
             this.findNavController().navigate(action)
         }
 
