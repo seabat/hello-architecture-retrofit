@@ -10,7 +10,7 @@ interface GithubApiService {
     fun getAllRepo(
         @Query("q") q: String,
         @Query("page") page: Int?,
-        @Query("per_page") perPage: Int = 50,
+        @Query("per_page") perPage: Int,
     ): Call<GetAllRepoResponse>
 }
 

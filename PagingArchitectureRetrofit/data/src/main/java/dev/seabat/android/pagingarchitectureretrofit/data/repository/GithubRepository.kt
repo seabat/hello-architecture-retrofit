@@ -39,20 +39,4 @@ class GithubRepository(private val endpoint: GithubApiService) : GithubRepositor
         }
     }
 
-    private fun convertToEntity(repos: List<Repository>?): RepositoryListEntity? {
-        return repos?.let { repos ->
-            RepositoryListEntity(
-                repos.map {
-                    RepositoryEntity(
-                        name = it.name,
-                        fullName = it.fullName,
-                        htmlUrl = it.htmlUrl,
-                        description = it.description,
-                        createdAt = it.createdAt,
-                        owner = OwnerEntity(avatarUrl = it.owner.avatarUrl)
-                    )
-                } as ArrayList<RepositoryEntity>
-            )
-        } ?: null
-    }
 }
