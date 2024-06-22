@@ -12,6 +12,7 @@ import dev.seabat.android.helloarchitectureretrofit.domain.entity.RepositoryList
 class RepositoryListAdapter(
     private val onListItemClick: (fullName: String, htmlUrl: String) -> Unit
 ) : RecyclerView.Adapter<RepositoryListAdapter.RepositoryHolder>() {
+
     var items = RepositoryListEntity(arrayListOf())
 
     fun updateRepositoryList(repositoryList: RepositoryListEntity) {
@@ -22,6 +23,14 @@ class RepositoryListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ListitemGithubRepoBinding.inflate(layoutInflater)
+
+        // NOTE: レイアウト側で width を match_parent に指定してもなぜか wrap_content になってしまうので、
+        //       ここで width を match_parent に設定する。
+        binding.root.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
         return RepositoryHolder(binding)
     }
 

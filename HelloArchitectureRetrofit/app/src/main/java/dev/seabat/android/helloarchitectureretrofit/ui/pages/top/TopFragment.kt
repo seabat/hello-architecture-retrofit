@@ -7,6 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,7 +40,10 @@ class TopFragment : Fragment(R.layout.page_top) {
             layoutManager = LinearLayoutManager(requireContext())
             val decoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
             addItemDecoration(decoration)
-            adapter = RepositoryListAdapter(onListItemClick = this@TopFragment.onListItemClick)
+            adapter = ConcatAdapter(
+                RepositoryListAdapter(onListItemClick = this@TopFragment.onListItemClick),
+                FooterListAdapter {}
+            )
         }
 
         // SearchView のクローズリスナー
@@ -67,7 +71,8 @@ class TopFragment : Fragment(R.layout.page_top) {
     private fun initObserver() {
         // リストの更新
         viewModel.repositories.observe(viewLifecycleOwner) {
-            (binding?.recyclerview?.adapter as RepositoryListAdapter)?.updateRepositoryList(it)
+            val concatAdapter = binding?.recyclerview?.adapter as? ConcatAdapter
+            (concatAdapter?.adapters?.get(0) as? RepositoryListAdapter)?.updateRepositoryList(it)
         }
 
         // プログレスバーの表示・非表示の切り替え
