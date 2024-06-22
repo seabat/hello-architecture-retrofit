@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.PagingArchitectureRetrofit" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_tertiary</item>
+        <item name="colorOnPrimary">@color/primary_on</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnSecondary">@color/secondary_on</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+
+        <item name="colorControlNormal">@color/primary_on</item>
+
+    </style>
+    <style name="Theme.CustomSearchView" parent="Widget.AppCompat.SearchView">
+        <item name="android:background">@color/primary</item>
+        <item name="android:textColorHint">@color/primary_on</item>
+        <item name="android:tint">@color/primary_on</item>
+    </style>
+</resources>
