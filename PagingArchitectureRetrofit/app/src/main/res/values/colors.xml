@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="green_200">#C8E6C9</color>
-    <color name="green_500">#4CAF50</color>
-    <color name="green_700">#388E3C</color>
-    <color name="accent_color">#FF5252</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="secondary_text">#757575</color>
+
+    <color name="primary_500">#5f5f58</color>
+    <color name="primary_700">#5b5f5c</color>
+    <color name="primary_container">#f4f1e8</color>
+    <color name="secondary">#605e5b</color>
+    <color name="secondary_on">#ffffff</color>
+    <color name="accent_color">#f4f1e8</color>
+    <color name="dark_primary_on">#31312b</color>
+    <color name="dark_secondary">#c9c6c2</color>
+    <color name="dark_secondary_on">#31302e</color>
 </resources>

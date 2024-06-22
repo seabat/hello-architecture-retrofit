@@ -2,12 +2,12 @@
     <!-- Base application theme. -->
     <style name="Theme.PagingArchitectureRetrofit" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/green_200</item>
-        <item name="colorPrimaryVariant">@color/green_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorOnPrimary">@color/dark_primary_on</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/accent_color</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/dark_secondary</item>
+        <item name="colorOnSecondary">@color/dark_secondary_on</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
