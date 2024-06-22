@@ -19,15 +19,16 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="@string/app_name"
-            app:titleTextColor="@color/accent_color"
-            android:background="@color/primary_500" />
+            app:titleTextColor="@color/primary_on"
+            android:background="@color/primary" />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColorHint="@color/primary_container_on"
             app:queryHint="リポジトリ名"
-            android:background="@color/primary_container"
+            android:theme="@style/Theme.CustomSearchView"
             android:iconifiedByDefault="true"
             android:visibility="gone" />
     </com.google.android.material.appbar.AppBarLayout>

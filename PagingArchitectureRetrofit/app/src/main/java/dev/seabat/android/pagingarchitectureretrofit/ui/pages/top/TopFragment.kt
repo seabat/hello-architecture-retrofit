@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -142,6 +143,13 @@ class TopFragment : Fragment(R.layout.page_top) {
 
                 else -> false
             }
+        }
+
+        // Toolbar のアイコンの色をダークモードに対応させる
+        binding?.toolbar?.menu?.findItem(R.id.menu_refresh)?.let {
+            // NOTE: R.color.primary_on は res/values/colors.xml と
+            //       res/values-night/colors.xml に定義されている
+            it.icon?.setTint(ContextCompat.getColor(requireContext(), R.color.primary_on))
         }
     }
 
