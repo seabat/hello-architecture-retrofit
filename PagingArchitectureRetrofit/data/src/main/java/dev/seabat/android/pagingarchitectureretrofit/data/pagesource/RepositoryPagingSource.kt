@@ -5,6 +5,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import dev.seabat.android.pagingarchitectureretrofit.data.datasource.github.GithubApiService
 import dev.seabat.android.pagingarchitectureretrofit.data.datasource.github.GithubExceptionConverter
+import dev.seabat.android.pagingarchitectureretrofit.data.datasource.github.model.GetAllRepoResponse
 import dev.seabat.android.pagingarchitectureretrofit.data.datasource.github.model.Repository
 import dev.seabat.android.pagingarchitectureretrofit.domain.entity.OwnerEntity
 import dev.seabat.android.pagingarchitectureretrofit.domain.entity.RepositoryEntity
@@ -61,15 +62,13 @@ class RepositoryPagingSource(
                 // 同期方式で HTTP 通信を行う
                 endpoint.getAllRepo(query, page, PAGE_SIZE).execute()
             } catch (e: Exception) { // 通信自体が失敗した場合
+                Log.w("PAR_PAGING", "Fail to getAllRepo [${e.javaClass.simpleName}, ${e.message}]")
                 val exception = AppException.convertTo(e as Throwable)
                 throw exception
             }
 
             val repositories = if (response.isSuccessful) {
-                val responseBody = response.body()
-                responseBody?.items?.let { items ->
-                    convertToEntity(startKey, items)
-                }
+                parseResponse(response, startKey)
             } else {
                 val exception = GithubExceptionConverter.convertTo(
                     response.code(),
@@ -83,7 +82,36 @@ class RepositoryPagingSource(
     }
 
     /**
-     * API のレスポンスを Entity に変換する
+     * Retrofit Response を Entity に変換する
+     */
+    private fun parseResponse(
+        response: retrofit2.Response<GetAllRepoResponse>,
+        startKey: Int
+    ): RepositoryListEntity? {
+        val responseBody = try {
+            response.body()
+        } catch (ex: Exception){
+            Log.w(
+                "PAR_PAGING",
+                "Fail to parse response body[${ex.javaClass.simpleName}, ${ex.message}]"
+            )
+            throw ex
+        }
+        return try {
+            responseBody?.items?.let { items ->
+                convertToEntity(startKey, items)
+            }
+        } catch (ex: Exception) {
+            Log.w(
+                "PAR_PAGING",
+                "Fail to parse response items[${ex.javaClass.simpleName}, ${ex.message}]"
+            )
+            throw ex
+        }
+    }
+
+    /**
+     * List<Repository> を RepositoryListEntity に変換する
      */
     private fun convertToEntity(startKey: Int, repos: List<Repository>): RepositoryListEntity {
         return RepositoryListEntity(
