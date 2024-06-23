@@ -73,6 +73,7 @@ class TopFragment : Fragment(R.layout.page_top) {
         viewModel.repositories.observe(viewLifecycleOwner) {
             val concatAdapter = binding?.recyclerview?.adapter as? ConcatAdapter
             (concatAdapter?.adapters?.get(0) as? RepositoryListAdapter)?.updateRepositoryList(it)
+            (concatAdapter?.adapters?.get(1) as? FooterListAdapter)?.updatePageNumber(3, 1)
         }
 
         // プログレスバーの表示・非表示の切り替え
