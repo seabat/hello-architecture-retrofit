@@ -38,8 +38,6 @@ class TopFragment : Fragment(R.layout.page_top) {
         // RecycleView に Adapter を設定
         binding?.recyclerview?.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            val decoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
-            addItemDecoration(decoration)
             adapter = ConcatAdapter(
                 RepositoryListAdapter(onListItemClick = this@TopFragment.onListItemClick),
                 FooterListAdapter {}
