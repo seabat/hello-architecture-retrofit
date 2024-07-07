@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.seabat.android.helloarchitectureretrofit.ErrorStringConverter
+import dev.seabat.android.helloarchitectureretrofit.domain.entity.AllRepositoryEntity
 import dev.seabat.android.helloarchitectureretrofit.domain.entity.RepositoryListEntity
 import dev.seabat.android.helloarchitectureretrofit.domain.exception.HelloException
 import dev.seabat.android.helloarchitectureretrofit.domain.usecase.GithubUseCaseContract
@@ -19,9 +20,15 @@ class TopViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private var _repositories =
-        MutableLiveData<RepositoryListEntity>(RepositoryListEntity(arrayListOf()))
-    val repositories: LiveData<RepositoryListEntity>
+    private var _repositories = MutableLiveData<AllRepositoryEntity>(
+        AllRepositoryEntity(
+            0,
+            0,
+            0,
+            RepositoryListEntity(arrayListOf())
+        )
+    )
+    val repositories: LiveData<AllRepositoryEntity>
         get() = _repositories
 
     private var _progressVisible = MutableLiveData<Boolean>(false)
@@ -34,14 +41,21 @@ class TopViewModel @Inject constructor(
 
     private var cachedQuery: String = "architecture"
 
-    fun loadRepositories(query: String? = null) {
+    fun loadRepositories(query: String? = cachedQuery, page: Int = 1) {
         query?.let {
             cachedQuery = it
         }
         viewModelScope.launch {
             _progressVisible.value = true
             kotlin.runCatching {
-                githubUseCase.loadRepos(cachedQuery) ?: RepositoryListEntity(arrayListOf())
+                githubUseCase.loadRepos(
+                    cachedQuery, page
+                ) ?: AllRepositoryEntity(
+                    0,
+                    0,
+                    0,
+                    RepositoryListEntity(arrayListOf())
+                )
             }.onSuccess { repositories ->
                 _repositories.value = repositories
             }.onFailure {

@@ -39,8 +39,12 @@ class TopFragment : Fragment(R.layout.page_top) {
         binding?.recyclerview?.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = ConcatAdapter(
-                RepositoryListAdapter(onListItemClick = this@TopFragment.onListItemClick),
-                FooterListAdapter {}
+                RepositoryListAdapter { fullName, htmlUrl ->
+                    onListItemClick(fullName, htmlUrl)
+                },
+                FooterListAdapter { page ->
+                    onPageClick(page)
+                }
             )
         }
 
@@ -70,8 +74,8 @@ class TopFragment : Fragment(R.layout.page_top) {
         // リストの更新
         viewModel.repositories.observe(viewLifecycleOwner) {
             val concatAdapter = binding?.recyclerview?.adapter as? ConcatAdapter
-            (concatAdapter?.adapters?.get(0) as? RepositoryListAdapter)?.updateRepositoryList(it)
-            (concatAdapter?.adapters?.get(1) as? FooterListAdapter)?.updatePageNumber(3, 1)
+            (concatAdapter?.adapters?.get(0) as? RepositoryListAdapter)?.updateRepositoryList(it.repos)
+            (concatAdapter?.adapters?.get(1) as? FooterListAdapter)?.updatePageNumber(it.totalPage, it.page)
         }
 
         // プログレスバーの表示・非表示の切り替え
@@ -135,6 +139,11 @@ class TopFragment : Fragment(R.layout.page_top) {
                 repoUrl = htmlUrl
             }
             this.findNavController().navigate(action)
+        }
+
+    private val onPageClick: (page: Int) -> Unit =
+        { page ->
+            viewModel.loadRepositories(page = page)
         }
 
     override fun onDestroyView() {
