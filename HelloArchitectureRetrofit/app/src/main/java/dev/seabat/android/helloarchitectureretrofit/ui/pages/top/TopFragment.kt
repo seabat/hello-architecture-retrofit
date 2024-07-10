@@ -144,6 +144,7 @@ class TopFragment : Fragment(R.layout.page_top) {
     private val onPageClick: (page: Int) -> Unit =
         { page ->
             viewModel.loadRepositories(page = page)
+            binding?.recyclerview?.scrollToPosition(0)
         }
 
     override fun onDestroyView() {
