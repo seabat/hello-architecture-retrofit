@@ -7,6 +7,7 @@ import dev.seabat.android.helloarchitectureretrofit.domain.entity.AllRepositoryE
 import dev.seabat.android.helloarchitectureretrofit.domain.entity.OwnerEntity
 import dev.seabat.android.helloarchitectureretrofit.domain.entity.RepositoryEntity
 import dev.seabat.android.helloarchitectureretrofit.domain.entity.RepositoryListEntity
+import dev.seabat.android.helloarchitectureretrofit.domain.exception.ErrorType
 import dev.seabat.android.helloarchitectureretrofit.domain.exception.HelloException
 import dev.seabat.android.helloarchitectureretrofit.domain.repository.GithubRepositoryContract
 import kotlinx.coroutines.Dispatchers
@@ -17,29 +18,33 @@ private const val PAGE_SIZE = 30
 
 class GithubRepository(private val endpoint: GithubApiService) : GithubRepositoryContract {
 
-    override suspend fun fetchRepos(query: String?, page: Int): AllRepositoryEntity? {
+    override suspend fun fetchRepos(query: String?, page: Int): AllRepositoryEntity {
         //NOTE: 同期方式の場合はメインスレッド以外で通信する必要あり
         return withContext(Dispatchers.IO) {
             val response = try {
                 // 同期方式で HTTP 通信を行う
                 endpoint.getAllRepo(query ?: "architecture", page, PAGE_SIZE).execute()
             } catch (e: Exception) { // 通信自体が失敗した場合
-                val exception = HelloException.convertTo(e as Throwable)
+                val exception = HelloException.convertTo(e)
                 throw exception
             }
 
-            if (response.isSuccessful) {
-                val responseBody = response.body()
-                val entityList = responseBody?.let {
-                    convertToEntity(page, responseBody)
+            when {
+                response.isSuccessful -> {
+                    val responseBody = response.body() ?: throw HelloException.OtherNetworkException(
+                        ErrorType.NETWORK_NULL_RESPONSE_BODY,
+                        "Response body is null"
+                    )
+                    val entityList = convertToEntity(page, responseBody)
+                    entityList
                 }
-                entityList
-            } else {
-                val exception = GithubExceptionConverter.convertTo(
-                    response.code(),
-                    response.errorBody()?.string()
-                )
-                throw exception
+                else -> {
+                    val errorBody = response.errorBody()?.string() ?: ""
+                    throw GithubExceptionConverter.convertTo(
+                        response.code(),
+                        errorBody
+                    )
+                }
             }
         }
     }
