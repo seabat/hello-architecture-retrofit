@@ -25,6 +25,9 @@ object ErrorStringConverter {
             ErrorType.NETWORK_NOT_FOUND -> App.getApplicationContext()
                 .getString(R.string.error_network_not_found)
 
+            ErrorType.NETWORK_NULL_RESPONSE_BODY -> App.getApplicationContext()
+                .getString(R.string.error_network_null_response_body)
+
             ErrorType.NETWORK_UNKNOWN_ERROR -> App.getApplicationContext()
                 .getString(R.string.error_network_unknown)
 
