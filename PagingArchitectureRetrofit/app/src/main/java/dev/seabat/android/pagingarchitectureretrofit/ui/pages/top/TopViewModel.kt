@@ -8,9 +8,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.seabat.android.pagingarchitectureretrofit.domain.usecase.CreateRepositoryPagingSourceUseCaseContract
+import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flatMapLatest
-import javax.inject.Inject
 
 private const val DEFAULT_QUERY = "architecture"
 

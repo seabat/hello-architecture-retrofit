@@ -9,5 +9,4 @@ import javax.inject.Inject
 class RepoDetailViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
 }

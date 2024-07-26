@@ -97,7 +97,6 @@ class SimpleErrorDialogFragment : DialogFragment() {
                 if (requestKey != null && requestBundle != null) {
                     setFragmentResult(requestKey, requestBundle)
                 }
-
             }
         }
         return builder.create()

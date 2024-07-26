@@ -11,5 +11,5 @@ package dev.seabat.android.pagingarchitectureretrofit.data.datasource.github.mod
  * }
  */
 data class GetAllRepoResponse(val items: List<Repository>)
-//NOTE: ArrayList を使用すると「Moshi only supports the collection interfaces by default」
+// NOTE: ArrayList を使用すると「Moshi only supports the collection interfaces by default」
 //      というエラーが発生するので List を使用すること

@@ -20,7 +20,6 @@ abstract class UseCaseModuleBinder {
     ): CreateRepositoryPagingSourceUseCaseContract
 }
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 object UseCaseModuleProvider {
