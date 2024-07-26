@@ -8,5 +8,5 @@ data class Repository(
     @Json(name = "html_url") val htmlUrl: String,
     val description: String?,
     @Json(name = "created_at") val createdAt: String,
-    val owner: Owner
+    val owner: Owner,
 )

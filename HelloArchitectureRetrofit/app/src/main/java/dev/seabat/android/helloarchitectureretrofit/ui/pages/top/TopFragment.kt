@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.seabat.android.helloarchitectureretrofit.R
@@ -74,8 +73,13 @@ class TopFragment : Fragment(R.layout.page_top) {
         // リストの更新
         viewModel.repositories.observe(viewLifecycleOwner) {
             val concatAdapter = binding?.recyclerview?.adapter as? ConcatAdapter
-            (concatAdapter?.adapters?.get(0) as? RepositoryListAdapter)?.updateRepositoryList(it.repos)
-            (concatAdapter?.adapters?.get(1) as? FooterListAdapter)?.updatePageNumber(it.totalPage, it.page)
+            (concatAdapter?.adapters?.get(0) as? RepositoryListAdapter)?.updateRepositoryList(
+                it.repos
+            )
+            (concatAdapter?.adapters?.get(1) as? FooterListAdapter)?.updatePageNumber(
+                it.totalPage,
+                it.page
+            )
         }
 
         // プログレスバーの表示・非表示の切り替え

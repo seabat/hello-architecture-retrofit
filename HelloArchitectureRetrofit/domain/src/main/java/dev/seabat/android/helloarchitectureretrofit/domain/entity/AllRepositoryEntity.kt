@@ -4,5 +4,5 @@ data class AllRepositoryEntity(
     val page: Int,
     val totalPage: Int,
     val totalCount: Int,
-    val repos: RepositoryListEntity
+    val repos: RepositoryListEntity,
 )

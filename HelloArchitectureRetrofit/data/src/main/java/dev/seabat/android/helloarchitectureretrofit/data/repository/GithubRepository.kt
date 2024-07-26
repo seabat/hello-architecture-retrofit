@@ -1,7 +1,7 @@
 package dev.seabat.android.helloarchitectureretrofit.data.repository
 
-import dev.seabat.android.helloarchitectureretrofit.data.datasource.github.GithubExceptionConverter
 import dev.seabat.android.helloarchitectureretrofit.data.datasource.github.GithubApiService
+import dev.seabat.android.helloarchitectureretrofit.data.datasource.github.GithubExceptionConverter
 import dev.seabat.android.helloarchitectureretrofit.data.datasource.github.model.GetAllRepoResponse
 import dev.seabat.android.helloarchitectureretrofit.domain.entity.AllRepositoryEntity
 import dev.seabat.android.helloarchitectureretrofit.domain.entity.OwnerEntity
@@ -19,7 +19,7 @@ private const val PAGE_SIZE = 30
 class GithubRepository(private val endpoint: GithubApiService) : GithubRepositoryContract {
 
     override suspend fun fetchRepos(query: String?, page: Int): AllRepositoryEntity {
-        //NOTE: 同期方式の場合はメインスレッド以外で通信する必要あり
+        // NOTE: 同期方式の場合はメインスレッド以外で通信する必要あり
         return withContext(Dispatchers.IO) {
             val response = try {
                 // 同期方式で HTTP 通信を行う
@@ -31,10 +31,11 @@ class GithubRepository(private val endpoint: GithubApiService) : GithubRepositor
 
             when {
                 response.isSuccessful -> {
-                    val responseBody = response.body() ?: throw HelloException.OtherNetworkException(
-                        ErrorType.NETWORK_NULL_RESPONSE_BODY,
-                        "Response body is null"
-                    )
+                    val responseBody = response.body()
+                        ?: throw HelloException.OtherNetworkException(
+                            ErrorType.NETWORK_NULL_RESPONSE_BODY,
+                            "Response body is null"
+                        )
                     val entityList = convertToEntity(page, responseBody)
                     entityList
                 }
@@ -70,9 +71,10 @@ class GithubRepository(private val endpoint: GithubApiService) : GithubRepositor
         }
 
         return AllRepositoryEntity(
-            page =if (totalPage == 0) 0 else page,
+            page = if (totalPage == 0) 0 else page,
             totalPage = totalPage,
             totalCount = response.total_count,
-            repos = repos)
+            repos = repos
+        )
     }
 }

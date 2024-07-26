@@ -16,7 +16,7 @@ abstract class RepositoryModuleBinder {
     @Binds
     @Singleton
     abstract fun bindGithubRepositoryContract(
-        gitHubRepository: GithubRepository
+        gitHubRepository: GithubRepository,
     ): GithubRepositoryContract
 }
 
@@ -25,9 +25,8 @@ abstract class RepositoryModuleBinder {
 object RepositoryModuleProvider {
     @Provides
     fun provideGithubRepository(
-        endpoint: GithubApiService
+        endpoint: GithubApiService,
     ): GithubRepository {
         return GithubRepository(endpoint)
     }
 }
-

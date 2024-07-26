@@ -30,6 +30,5 @@ enum class ErrorType(val value: Int) {
     /** 不明なネットワークエラー */
     NETWORK_UNKNOWN_ERROR(199),
 
-
-    UNKNOWN_ERROR(9999)
+    UNKNOWN_ERROR(9999),
 }
