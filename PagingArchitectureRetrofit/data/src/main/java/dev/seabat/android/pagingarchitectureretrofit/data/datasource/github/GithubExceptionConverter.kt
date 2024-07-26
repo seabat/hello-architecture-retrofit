@@ -4,8 +4,8 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dev.seabat.android.pagingarchitectureretrofit.data.datasource.github.model.ErrorResponse
-import dev.seabat.android.pagingarchitectureretrofit.domain.exception.ErrorType
 import dev.seabat.android.pagingarchitectureretrofit.domain.exception.AppException
+import dev.seabat.android.pagingarchitectureretrofit.domain.exception.ErrorType
 
 /**
  * GitHub API のエラーレスポンスコードを AppException に変換する

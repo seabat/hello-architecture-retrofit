@@ -8,12 +8,21 @@ import dev.seabat.android.pagingarchitectureretrofit.domain.entity.RepositoryEnt
 import dev.seabat.android.pagingarchitectureretrofit.domain.repository.GithubRepositoryContract
 import kotlinx.coroutines.flow.Flow
 
-class CreateRepositoryPagingSourceUseCase(private val githubRepository: GithubRepositoryContract) : CreateRepositoryPagingSourceUseCaseContract {
+class CreateRepositoryPagingSourceUseCase(
+    private val githubRepository: GithubRepositoryContract
+) : CreateRepositoryPagingSourceUseCaseContract {
 
     override fun invoke(query: String?): Flow<PagingData<RepositoryEntity>> {
-        return  Pager(
-            config = PagingConfig(pageSize = MifareUltralight.PAGE_SIZE,enablePlaceholders = false),
-            pagingSourceFactory = { githubRepository.repositoryPagingSource(query ?: "architecture") }
+        return Pager(
+            config = PagingConfig(
+                pageSize = MifareUltralight.PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                githubRepository.repositoryPagingSource(
+                    query ?: "architecture"
+                )
+            }
         ).flow
     }
 }

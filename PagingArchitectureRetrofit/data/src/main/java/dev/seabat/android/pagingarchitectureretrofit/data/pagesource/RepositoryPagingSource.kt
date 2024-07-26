@@ -11,10 +11,10 @@ import dev.seabat.android.pagingarchitectureretrofit.domain.entity.OwnerEntity
 import dev.seabat.android.pagingarchitectureretrofit.domain.entity.RepositoryEntity
 import dev.seabat.android.pagingarchitectureretrofit.domain.entity.RepositoryListEntity
 import dev.seabat.android.pagingarchitectureretrofit.domain.exception.AppException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.lang.Exception
 import kotlin.math.max
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 private const val STARTING_KEY = 0
 private const val PAGE_SIZE = 30
@@ -39,7 +39,7 @@ class RepositoryPagingSource(
                 prevKey = calculatePrevKey(startKey, repos?.size ?: 0),
                 nextKey = calculateNextKey(startKey, repos?.size ?: 0)
             )
-        } catch(ex: Exception) {
+        } catch (ex: Exception) {
             return LoadResult.Error(ex)
         }
     }
@@ -55,8 +55,12 @@ class RepositoryPagingSource(
      *
      * - Web API の実行が正常終了し、レスポンスデータのデータが null の場合、null を返す。
      */
-    private suspend fun fetchRepos(query: String, startKey: Int, page: Int?): RepositoryListEntity? {
-        //NOTE: 同期方式の場合はメインスレッド以外で通信する必要あり
+    private suspend fun fetchRepos(
+        query: String,
+        startKey: Int,
+        page: Int?
+    ): RepositoryListEntity? {
+        // NOTE: 同期方式の場合はメインスレッド以外で通信する必要あり
         return withContext(Dispatchers.IO) {
             val response = try {
                 // 同期方式で HTTP 通信を行う
@@ -90,7 +94,7 @@ class RepositoryPagingSource(
     ): RepositoryListEntity? {
         val responseBody = try {
             response.body()
-        } catch (ex: Exception){
+        } catch (ex: Exception) {
             Log.w(
                 "PAR_PAGING",
                 "Fail to parse response body[${ex.javaClass.simpleName}, ${ex.message}]"
@@ -115,24 +119,24 @@ class RepositoryPagingSource(
      */
     private fun convertToEntity(startKey: Int, repos: List<Repository>): RepositoryListEntity {
         return RepositoryListEntity(
-                repos.mapIndexed { index, value ->
-                    // NOTE: id は 1 開始とする。
-                    //       startKey と index の開始値は 0 なので、 id に +1 する。
-                    val id = 1 + startKey + index
+            repos.mapIndexed { index, value ->
+                // NOTE: id は 1 開始とする。
+                //       startKey と index の開始値は 0 なので、 id に +1 する。
+                val id = 1 + startKey + index
 
-                    Log.d("PAR_PAGING", "id: ${id}, name: ${value.name}")
+                Log.d("PAR_PAGING", "id: $id, name: ${value.name}")
 
-                    RepositoryEntity(
-                        id = id,
-                        name = value.name,
-                        fullName = value.fullName,
-                        htmlUrl = value.htmlUrl,
-                        description = value.description,
-                        createdAt = value.createdAt,
-                        owner = OwnerEntity(avatarUrl = value.owner.avatarUrl)
-                    )
-                } as ArrayList<RepositoryEntity>
-            )
+                RepositoryEntity(
+                    id = id,
+                    name = value.name,
+                    fullName = value.fullName,
+                    htmlUrl = value.htmlUrl,
+                    description = value.description,
+                    createdAt = value.createdAt,
+                    owner = OwnerEntity(avatarUrl = value.owner.avatarUrl)
+                )
+            } as ArrayList<RepositoryEntity>
+        )
     }
 
     /**

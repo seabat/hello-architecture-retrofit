@@ -30,4 +30,3 @@ object RepositoryModuleProvider {
         return GithubRepository(endpoint)
     }
 }
-

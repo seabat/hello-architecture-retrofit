@@ -44,7 +44,8 @@ class TopFragment : Fragment(R.layout.page_top) {
 
     private fun initView() {
         // RecycleView に Adapter を設定
-        val repositoryListAdapter = RepositoryListAdapter(onListItemClick = this@TopFragment.onListItemClick)
+        val repositoryListAdapter =
+            RepositoryListAdapter(onListItemClick = this@TopFragment.onListItemClick)
         binding?.recyclerview?.apply {
             layoutManager = LinearLayoutManager(requireContext())
             val decoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
@@ -71,9 +72,11 @@ class TopFragment : Fragment(R.layout.page_top) {
                     }
                     is LoadState.Error -> {
                         Log.d("PAR_PAGING", "Error")
-                        val errorString = ErrorStringConverter.convertTo((state.error as AppException).errType)
+                        val errorString = ErrorStringConverter.convertTo(
+                            (state.error as AppException).errType
+                        )
                         showSimpleErrorDialog(
-                            message =errorString,
+                            message = errorString,
                             requestKey = TAG,
                             requestBundle = bundleOf("errorMessage" to errorString),
                             onClickCallback = { key, bundle ->
@@ -94,7 +97,6 @@ class TopFragment : Fragment(R.layout.page_top) {
                 }
             }
         }
-
 
         // SearchView のクローズリスナー
         binding?.search?.setOnCloseListener {

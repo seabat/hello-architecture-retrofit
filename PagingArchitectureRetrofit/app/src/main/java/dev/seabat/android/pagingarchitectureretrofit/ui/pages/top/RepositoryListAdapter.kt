@@ -12,7 +12,9 @@ import dev.seabat.android.pagingarchitectureretrofit.domain.entity.RepositoryEnt
 
 class RepositoryListAdapter(
     private val onListItemClick: (fullName: String, htmlUrl: String) -> Unit
-) : PagingDataAdapter<RepositoryEntity, RepositoryListAdapter.RepositoryViewHolder>(REPOSITORY_DIFF_CALLBACK) {
+) : PagingDataAdapter<RepositoryEntity, RepositoryListAdapter.RepositoryViewHolder>(
+    REPOSITORY_DIFF_CALLBACK
+) {
     override fun onBindViewHolder(holder: RepositoryViewHolder, position: Int) {
         val tile = getItem(position)
         if (tile != null) {
@@ -59,11 +61,16 @@ class RepositoryListAdapter(
 
     companion object {
         private val REPOSITORY_DIFF_CALLBACK = object : DiffUtil.ItemCallback<RepositoryEntity>() {
-            override fun areItemsTheSame(oldItem: RepositoryEntity, newItem: RepositoryEntity): Boolean =
+            override fun areItemsTheSame(
+                oldItem: RepositoryEntity,
+                newItem: RepositoryEntity
+            ): Boolean =
                 oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: RepositoryEntity, newItem: RepositoryEntity): Boolean =
-                oldItem == newItem
+            override fun areContentsTheSame(
+                oldItem: RepositoryEntity,
+                newItem: RepositoryEntity
+            ): Boolean = oldItem == newItem
         }
     }
 }

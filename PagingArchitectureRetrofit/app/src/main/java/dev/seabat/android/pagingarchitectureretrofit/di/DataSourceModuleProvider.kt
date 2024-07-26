@@ -4,15 +4,14 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.seabat.android.pagingarchitectureretrofit.data.datasource.github.GithubApiService
 import dev.seabat.android.pagingarchitectureretrofit.data.datasource.github.GithubApi
+import dev.seabat.android.pagingarchitectureretrofit.data.datasource.github.GithubApiService
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DataSourceModuleModuleProvider {
+object DataSourceModuleProvider {
     @Provides
-    fun provideGithubApiEndpoint(
-    ): GithubApiService {
+    fun provideGithubApiEndpoint(): GithubApiService {
         return GithubApi.githubApiService
     }
 }
