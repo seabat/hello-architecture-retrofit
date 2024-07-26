@@ -6,5 +6,5 @@ class RepositoryEntity(
     val htmlUrl: String,
     val description: String?,
     val createdAt: String,
-    val owner: OwnerEntity
+    val owner: OwnerEntity,
 )

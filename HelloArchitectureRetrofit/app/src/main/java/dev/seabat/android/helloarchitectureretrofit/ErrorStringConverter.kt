@@ -7,7 +7,8 @@ object ErrorStringConverter {
         return when (errorType) {
             ErrorType.CONNECTION_TIMEOUT,
             ErrorType.SOCKET_TIMEOUT,
-            ErrorType.UNKNOWN_HOST -> App.getApplicationContext()
+            ErrorType.UNKNOWN_HOST,
+            -> App.getApplicationContext()
                 .getString(R.string.error_network_connection)
 
             ErrorType.NETWORK_IO_ERROR -> App.getApplicationContext()

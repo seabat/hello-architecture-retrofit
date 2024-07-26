@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TopViewModel @Inject constructor(
     private val githubUseCase: GithubUseCaseContract,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private var _repositories = MutableLiveData<AllRepositoryEntity>(
@@ -49,7 +49,8 @@ class TopViewModel @Inject constructor(
             _progressVisible.value = true
             kotlin.runCatching {
                 githubUseCase.loadRepos(
-                    cachedQuery, page
+                    cachedQuery,
+                    page
                 ) ?: AllRepositoryEntity(
                     0,
                     0,

@@ -1,16 +1,14 @@
 package dev.seabat.android.helloarchitectureretrofit.ui.pages.top
 
 import android.view.LayoutInflater
-import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import dev.seabat.android.helloarchitectureretrofit.databinding.ListitemFooterGithubReopBinding
-import dev.seabat.android.helloarchitectureretrofit.domain.entity.RepositoryListEntity
 
 class FooterListAdapter(
-    private val onPageClick: (page: Int) -> Unit
+    private val onPageClick: (page: Int) -> Unit,
 ) : RecyclerView.Adapter<FooterListAdapter.FooterListViewHolder>() {
 
     var totalPageNumber = 0
@@ -41,7 +39,7 @@ class FooterListAdapter(
             binding.imageForward.apply {
                 visibility = if (currentPageNumber < totalPageNumber) {
                     VISIBLE
-                }  else {
+                } else {
                     INVISIBLE
                 }
                 setOnClickListener {

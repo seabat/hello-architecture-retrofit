@@ -13,4 +13,3 @@ interface GithubApiService {
         @Query("per_page") perPage: Int,
     ): Call<GetAllRepoResponse>
 }
-

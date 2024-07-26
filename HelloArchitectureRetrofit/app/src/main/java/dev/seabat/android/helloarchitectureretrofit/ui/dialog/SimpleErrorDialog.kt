@@ -19,7 +19,7 @@ fun Activity.showSimpleErrorDialog(
     message: String,
     requestKey: String,
     requestBundle: Bundle,
-    onClickCallback: (key: String, bundle: Bundle) -> Unit
+    onClickCallback: (key: String, bundle: Bundle) -> Unit,
 ) {
     val dialogFragment = SimpleErrorDialogFragment().apply {
         arguments = Bundle().apply {
@@ -46,7 +46,7 @@ fun Fragment.showSimpleErrorDialog(
     message: String,
     requestKey: String,
     requestBundle: Bundle,
-    onClickCallback: (key: String, bundle: Bundle) -> Unit
+    onClickCallback: (key: String, bundle: Bundle) -> Unit,
 ) {
     val dialogFragment = SimpleErrorDialogFragment().apply {
         arguments = Bundle().apply {
@@ -97,7 +97,6 @@ class SimpleErrorDialogFragment : DialogFragment() {
                 if (requestKey != null && requestBundle != null) {
                     setFragmentResult(requestKey, requestBundle)
                 }
-
             }
         }
         return builder.create()

@@ -10,7 +10,7 @@ import dev.seabat.android.helloarchitectureretrofit.domain.entity.RepositoryEnti
 import dev.seabat.android.helloarchitectureretrofit.domain.entity.RepositoryListEntity
 
 class RepositoryListAdapter(
-    private val onListItemClick: (fullName: String, htmlUrl: String) -> Unit
+    private val onListItemClick: (fullName: String, htmlUrl: String) -> Unit,
 ) : RecyclerView.Adapter<RepositoryListAdapter.RepositoryHolder>() {
 
     var items = RepositoryListEntity(arrayListOf())
@@ -53,7 +53,7 @@ class RepositoryListAdapter(
 
         fun setClickListener(
             data: RepositoryEntity,
-            onListItemClick: (fullName: String, htmlUrl: String) -> Unit
+            onListItemClick: (fullName: String, htmlUrl: String) -> Unit,
         ) {
             binding.layoutRoot.setOnClickListener {
                 onListItemClick(data.fullName, data.htmlUrl)
