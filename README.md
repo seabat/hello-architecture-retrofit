@@ -1,41 +1,36 @@
+[Android 推奨のアーキテクチャ](https://developer.android.com/jetpack/guide?hl=ja) と [Retrofit](https://square.github.io/retrofit/) のサンプルコード。
+
 # hello-architecture-retrofit
 
 Android 推奨アーキテクチャと Retrofit を使い、Github リポジトリの検索結果を RecyclerView に表示する。
 
+### Technology Stack
 
-## 構成
+#### アーキテクチャ
 
-* MVVM アーキテクチャパターン  
-  ViewModel + LiveData + ビューバインディング
+|項目   |説明                                     |
+|-------|----------------------------------------|
+|MVVM   |ViewModel + LiveData + ビューバインディング|
+|[Android 推奨のアーキテクチャ](https://developer.android.com/jetpack/guide?hl=ja)| UI Layer -> Domain Layer -> Data Layer |
+|[クリーンアーキテクチャ](https://www.amazon.co.jp/exec/obidos/ASIN/4048930656/maple036-22/)| Use Case / Controllers & Gateways & Presenters / External Interface .etc |
 
-* [Android 推奨のアーキテクチャ](https://developer.android.com/jetpack/guide?hl=ja) に準拠  
-  UI Layer -> Domain Layer -> Data Layer
+#### Dependencies
 
-* [クリーンアーキテクチャ](https://www.amazon.co.jp/exec/obidos/ASIN/4048930656/maple036-22/) に準拠  
-  Use Case / Controllers & Gateways & Presenters / External Interface .etc
-
-## Dependencies
-
-* 通信ライブラリ  
-  [Retrofit](https://square.github.io/retrofit/)
-
-* DI(依存性の注入)ライブラリ  
-  [Hilt](https://dagger.dev/hilt/) 
-  
-* JSON <=> String 変換ライブラリ  
-  * [Gson](https://github.com/google/gson) (Ver. 1.0)
-  * [Moshi](https://github.com/square/moshi/tree/master) (Ver. 1.1以降)
-
-* イメージロードライブラリ  
-  [Glide](https://github.com/bumptech/glide)  
+|項目   |説明                                     |
+|-------|----------------------------------------|
+|[Retrofit](https://square.github.io/retrofit/)|通信ライブラリ|
+|[Hilt](https://dagger.dev/hilt/) |DI(依存性の注入)ライブラリ|
+|[Gson](https://github.com/google/gson)|  Googleが提供するJSONデータとJavaオブジェクトを相互に変換するためのライブラリ|
+|[Moshi](https://github.com/square/moshi/tree/master)|JavaやAndroid向けのモダンなJSONライブラリ|
+|[Glide](https://github.com/bumptech/glide)|イメージロードライブラリ |
 
 
-## 画面のスクリーンショット
+### 画面のスクリーンショット
 
 <img src="images/top_screenshot.png" width="200">　　<img src="images/search_screenshot.png" width="200">　　<img src="images/repo_detail.png" width="200">   <img src="images/pagenation_screenshot.png" width="200">
 
 
-## Commit Tree
+### Commit Tree
 
 |コミット |
 |----------------|
@@ -64,3 +59,47 @@ Android 推奨アーキテクチャと Retrofit を使い、Github リポジト�
 |[レスポンスJSON のパースをGson から Moshi に変更](https://github.com/seabat/hello-architecture-retrofit/commit/85fa9818128854db45d2b003bfc7da13f5ecdd9f)|
 |[JSON のパースをGSON から Moshi に変更](https://github.com/seabat/hello-architecture-retrofit/commit/3f2d3b91a4ded7c430c669d6c1f13f7509c84e36)|
 |[HTTP 通信を非同期方式から同期方式に変更する](https://github.com/seabat/hello-architecture-retrofit/commit/14be2045b72a2b0f76149e6d2e0ba01e5de05f8a)|
+
+
+# paging-architecture-retrofit
+
+hello-architecture-retrofit に [Jetpack Paging](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) を適用。
+
+GitHub API 「[Search repositories](https://docs.github.com/ja/rest/search/search?apiVersion=2022-11-28#search-repositories)」はページングに対応しており、1度のアクセスで1ページ分しか取得できない仕様である。 Jetapack Paging を使用してリストの無限スクロールを実装する。
+
+※ [Search repositories](https://docs.github.com/ja/rest/search/search?apiVersion=2022-11-28#search-repositories)」の1ページ分は (30(Default)件から100件(MAX)。
+
+
+### Technology Stack
+
+#### アーキテクチャ
+
+|項目   |説明                                     |
+|-------|----------------------------------------|
+|MVVM   |ViewModel + LiveData + ビューバインディング|
+|[Android 推奨のアーキテクチャ](https://developer.android.com/jetpack/guide?hl=ja)| UI Layer -> Domain Layer -> Data Layer |
+|[クリーンアーキテクチャ](https://www.amazon.co.jp/exec/obidos/ASIN/4048930656/maple036-22/)| Use Case / Controllers & Gateways & Presenters / External Interface .etc |
+
+#### Dependencies
+
+|項目   |説明                                     |
+|-------|----------------------------------------|
+|[Retrofit](https://square.github.io/retrofit/)|通信ライブラリ|
+|[Hilt](https://dagger.dev/hilt/) |DI(依存性の注入)ライブラリ|
+|[Gson](https://github.com/google/gson)|  Googleが提供するJSONデータとJavaオブジェクトを相互に変換するためのライブラリ|
+|[Moshi](https://github.com/square/moshi/tree/master)|JavaやAndroid向けのモダンなJSONライブラリ|
+|[Glide](https://github.com/bumptech/glide)|イメージロードライブラリ |
+|[Paging3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)|ページング処理を楽に実装するためのライブラリ|
+
+### Commit Tree
+
+|コミット |
+|----------------|
+|[PagingSource を作成](https://github.com/seabat/hello-architecture-retrofit/commit/72c5078bd8a36ca70927ffa78f8802f104da0934) |
+|[ViewModel から PagingData を公開する](https://github.com/seabat/hello-architecture-retrofit/commit/ad6f67cf5ce22241da48e710fb54a6f1db248050)|
+|[PagingDataAdapter を作成](https://github.com/seabat/hello-architecture-retrofit/commit/7828f9fb9777c2f9fb35961174c64838c0c12d70)|
+|[Fragment で PagingDataAdapter を更新する](https://github.com/seabat/hello-architecture-retrofit/commit/bfa23674a9bfd8c01af040345cd891c1f82b5638)|
+|[エラーダイアログを表示する](https://github.com/seabat/hello-architecture-retrofit/commit/357bf14a2c59ea025d2681d5ce44f9ec42a27ce4)|
+|[プログレスバーを表示する](https://github.com/seabat/hello-architecture-retrofit/commit/827d6f8429a611afd31f890ab4fd87686862b6cc)|
+|[リストを更新する](https://github.com/seabat/hello-architecture-retrofit/commit/fd7b0d622dee90524c94fe1a08354dc97360027e)|
+

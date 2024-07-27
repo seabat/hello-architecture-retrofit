@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#5f5f58</color>
+    <color name="primary_tertiary">#5b5f5c</color>
+    <color name="primary_on">#f4f1e8</color>
+    <color name="primary_container">#f4f1e8</color>
+    <color name="primary_container_on">#51514a</color>
+    <color name="secondary">#605e5b</color>
+    <color name="secondary_on">#ffffff</color>
+</resources>
