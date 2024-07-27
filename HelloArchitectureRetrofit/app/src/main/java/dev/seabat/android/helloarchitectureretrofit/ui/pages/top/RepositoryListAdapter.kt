@@ -10,8 +10,9 @@ import dev.seabat.android.helloarchitectureretrofit.domain.entity.RepositoryEnti
 import dev.seabat.android.helloarchitectureretrofit.domain.entity.RepositoryListEntity
 
 class RepositoryListAdapter(
-    private val onListItemClick: (fullName: String, htmlUrl: String) -> Unit
+    private val onListItemClick: (fullName: String, htmlUrl: String) -> Unit,
 ) : RecyclerView.Adapter<RepositoryListAdapter.RepositoryHolder>() {
+
     var items = RepositoryListEntity(arrayListOf())
 
     fun updateRepositoryList(repositoryList: RepositoryListEntity) {
@@ -21,7 +22,7 @@ class RepositoryListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = ListitemGithubRepoBinding.inflate(layoutInflater)
+        val binding = ListitemGithubRepoBinding.inflate(layoutInflater, parent, false)
         return RepositoryHolder(binding)
     }
 
@@ -52,7 +53,7 @@ class RepositoryListAdapter(
 
         fun setClickListener(
             data: RepositoryEntity,
-            onListItemClick: (fullName: String, htmlUrl: String) -> Unit
+            onListItemClick: (fullName: String, htmlUrl: String) -> Unit,
         ) {
             binding.layoutRoot.setOnClickListener {
                 onListItemClick(data.fullName, data.htmlUrl)

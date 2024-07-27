@@ -32,7 +32,7 @@ Android 推奨アーキテクチャと Retrofit を使い、Github リポジト�
 
 ## 画面のスクリーンショット
 
-<img src="images/top_screenshot.png" width="200">　　<img src="images/search_screenshot.png" width="200">　　<img src="images/repo_detail.png" width="200">
+<img src="images/top_screenshot.png" width="200">　　<img src="images/search_screenshot.png" width="200">　　<img src="images/repo_detail.png" width="200">   <img src="images/pagenation_screenshot.png" width="200">
 
 
 ## Commit Tree

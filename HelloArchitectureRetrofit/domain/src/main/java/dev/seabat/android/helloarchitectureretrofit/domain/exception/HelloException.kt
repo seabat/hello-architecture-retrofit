@@ -13,6 +13,9 @@ sealed class HelloException(val errType: ErrorType, errMessage: String? = null) 
     class StorageIOException(errType: ErrorType, errMessage: String? = null) :
         HelloException(errType, errMessage)
 
+    class OtherNetworkException(errType: ErrorType, errMessage: String? = null) :
+        HelloException(errType, errMessage)
+
     companion object {
         /**
          * Throwable を HelloException に変換する

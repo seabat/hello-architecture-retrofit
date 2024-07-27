@@ -7,7 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.seabat.android.helloarchitectureretrofit.R
@@ -37,9 +37,14 @@ class TopFragment : Fragment(R.layout.page_top) {
         // RecycleView に Adapter を設定
         binding?.recyclerview?.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            val decoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
-            addItemDecoration(decoration)
-            adapter = RepositoryListAdapter(onListItemClick = this@TopFragment.onListItemClick)
+            adapter = ConcatAdapter(
+                RepositoryListAdapter { fullName, htmlUrl ->
+                    onListItemClick(fullName, htmlUrl)
+                },
+                FooterListAdapter { page ->
+                    onPageClick(page)
+                }
+            )
         }
 
         // SearchView のクローズリスナー
@@ -67,7 +72,14 @@ class TopFragment : Fragment(R.layout.page_top) {
     private fun initObserver() {
         // リストの更新
         viewModel.repositories.observe(viewLifecycleOwner) {
-            (binding?.recyclerview?.adapter as RepositoryListAdapter)?.updateRepositoryList(it)
+            val concatAdapter = binding?.recyclerview?.adapter as? ConcatAdapter
+            (concatAdapter?.adapters?.get(0) as? RepositoryListAdapter)?.updateRepositoryList(
+                it.repos
+            )
+            (concatAdapter?.adapters?.get(1) as? FooterListAdapter)?.updatePageNumber(
+                it.totalPage,
+                it.page
+            )
         }
 
         // プログレスバーの表示・非表示の切り替え
@@ -131,6 +143,12 @@ class TopFragment : Fragment(R.layout.page_top) {
                 repoUrl = htmlUrl
             }
             this.findNavController().navigate(action)
+        }
+
+    private val onPageClick: (page: Int) -> Unit =
+        { page ->
+            viewModel.loadRepositories(page = page)
+            binding?.recyclerview?.scrollToPosition(0)
         }
 
     override fun onDestroyView() {

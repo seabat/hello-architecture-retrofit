@@ -16,17 +16,16 @@ abstract class UseCaseModuleBinder {
     @Binds
     @Singleton
     abstract fun bindGithubUseCaseContract(
-        githubUseCase: GithubUseCase
+        githubUseCase: GithubUseCase,
     ): GithubUseCaseContract
 }
-
 
 @Module
 @InstallIn(SingletonComponent::class)
 object UseCaseModuleProvider {
     @Provides
     fun provideGithubUseCase(
-        githubRepository: GithubRepositoryContract
+        githubRepository: GithubRepositoryContract,
     ): GithubUseCase {
         return GithubUseCase(githubRepository)
     }

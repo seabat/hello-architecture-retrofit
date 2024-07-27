@@ -24,8 +24,11 @@ enum class ErrorType(val value: Int) {
     /** 404: アクセスしたリソースが存在しない  */
     NETWORK_NOT_FOUND(108),
 
+    /** レスポンスボディが null */
+    NETWORK_NULL_RESPONSE_BODY(110),
+
     /** 不明なネットワークエラー */
     NETWORK_UNKNOWN_ERROR(199),
 
-    UNKNOWN_ERROR(9999)
+    UNKNOWN_ERROR(9999),
 }

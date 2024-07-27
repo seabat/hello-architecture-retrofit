@@ -7,7 +7,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RepoDetailViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-
 }
